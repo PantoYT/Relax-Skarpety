@@ -7,3 +7,6 @@ This is my first website project, created for the **Relax-Skarpety** store in To
 - All files are contained within this repository.
 
 Feel free to explore and use the code.
+
+https://pantoyt.github.io/Relax-Skarpety/
+
