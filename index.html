@@ -4,255 +4,324 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="TSP7MWj75XGU5eLMUehEuxETIdaj9AF4-_jXNBd8kJw" />
-<title>RelaxSkarpety</title>
+<title>Relax Skarpety — Tomaszów Lubelski</title>
 <link rel="icon" type="image/png" href="icons/favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
 @font-face {
   font-family: 'Brush 445';
   src: url('fonts/brush-445.woff2') format('woff2'),
        url('fonts/brush-445.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
 }
 
-body { margin: 0; font-family: 'Poppins', sans-serif; text-align: center; background: #fafafa; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-header { 
-  height: 400px; 
-  background: #fafafa; 
-  color: #222; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: center; 
-  align-items: center; 
-  font-family: 'Brush 445', cursive; 
-  border-bottom: 1px solid #ccc;
-}
-header h1 { font-size: 200px; margin:0; }
-header p { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 48px; color: #555; margin:0; }
-
-.carousel { padding: 40px 0 70px 0; overflow: hidden; display: flex; justify-content: center; position: relative; }
-
-.carousel-track-container { 
-  width: 90%; 
-  overflow: hidden; 
-  position: relative; 
+:root {
+  --cream:    #f7f3ed;
+  --cream-2:  #ede8df;
+  --cream-3:  #e2dbd0;
+  --ink:      #1a1714;
+  --ink-2:    #2e2a26;
+  --ink-soft: rgba(26,23,20,0.55);
+  --ink-dim:  rgba(26,23,20,0.28);
+  --rust:     #c0392b;
+  --font-display: 'Brush 445', cursive;
+  --font-serif:   'Cormorant Garamond', serif;
+  --font-body:    'DM Sans', sans-serif;
 }
 
-.carousel-track-container::before,
-.carousel-track-container::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 50px;
-  z-index: 10;
-  pointer-events: none;
+html { scroll-behavior: smooth; }
+body { background: var(--cream); color: var(--ink); font-family: var(--font-body); overflow-x: hidden; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 48px;
+  background: rgba(247,243,237,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--cream-3);
 }
+.nav-brand { font-family: var(--font-display); font-size: 32px; color: var(--ink); text-decoration: none; line-height: 1; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 0.15s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-contact { font-size: 13px; font-weight: 500; color: var(--ink); text-decoration: none; padding: 8px 20px; border: 1px solid var(--ink); border-radius: 3px; transition: background 0.15s, color 0.15s; }
+.nav-contact:hover { background: var(--ink); color: var(--cream); }
 
-.carousel-track-container::before { left:0; background: linear-gradient(to right, #fafafa 0%, transparent 100%); }
-.carousel-track-container::after  { right:0; background: linear-gradient(to left, #fafafa 0%, transparent 100%); }
-
-.carousel-track { display: flex; transition: transform .6s cubic-bezier(0.65, 0, 0.35, 1); list-style: none; padding: 0; margin: 0; gap: 10px; }
-.carousel-slide { flex: 0 0 20%; box-sizing: border-box; }
-.carousel-slide img { width: 100%; max-width: 300px; height: auto; aspect-ratio: 3/4; object-fit: cover; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
-
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #222;
-  color: white;
-  border: none;
-  width: 75px;
-  height: 75px;
-  font-size: 50px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  z-index: 20;
-  opacity: 0.85;
-  transition: background 0.2s, opacity 0.2s, transform 0.2s;
-}
-
-.carousel-btn:hover {
-  background: #444;
-  opacity: 1;
-  transform: translateY(-50%) scale(1.05);
-}
-
-.carousel-btn.prev { left: 20px; }
-.carousel-btn.next { right: 20px; }
-
-.socials { padding: 40px 0 0 0; display: flex; justify-content: center; gap: 50px; }
-.socials a img { transition: transform 0.2s; }
-.socials a:hover img { transform: scale(1.1); }
-
-p.updates { font-family: 'Poppins', sans-serif; font-size: 30px; color: #555; margin-top: 15px; }
-
-.map { width: 100%; height: 700px; margin: 0; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; }
-.map h2 { font-weight: 700; font-size: 28px; color: #fff; background-color: #222; display: inline-block; padding: 10px 20px; border-radius: 5px; margin-bottom: 15px; }
-.map iframe { width: 100%; height: calc(100% - 65px); border: 0; }
-
-footer { background: #222; color: #fff; padding: 40px 20px; font-size: 14px; }
-.footer-container { display: flex; flex-wrap: wrap; justify-content: space-around; gap: 40px; max-width: 1000px; margin: 0 auto; text-align: left; }
-.footer-section h3 { font-size: 18px; margin-bottom: 10px; }
-.footer-section p { margin: 2px 0; }
-.footer-section p.italic { font-style: italic; color: #bbb; }
-
-.about {
-  background: #fafafa;
-  padding: 60px 20px;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-}
-
-.about-container {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: justify;
-}
-
-.about h2 {
-  font-size: 36px;
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 100px 48px 80px;
   text-align: center;
-  margin-bottom: 20px;
-  color: #222;
+  border-bottom: 1px solid var(--cream-3);
 }
+.hero-rule { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+.hero-rule span { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); }
+.hero-rule::before, .hero-rule::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: var(--cream-3); }
+.hero h1 { font-family: var(--font-display); font-size: clamp(100px, 18vw, 220px); line-height: 0.88; color: var(--ink); margin-bottom: 12px; }
+.hero-tagline { font-family: var(--font-serif); font-size: clamp(18px, 2.5vw, 28px); font-weight: 300; font-style: italic; color: var(--ink-soft); letter-spacing: 0.04em; margin-bottom: 40px; }
+.hero-badges { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
+.badge { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 16px; border: 1px solid var(--cream-3); border-radius: 2px; color: var(--ink-soft); font-weight: 500; }
+.hero-cta { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; padding: 14px 36px; background: var(--ink); color: var(--cream); text-decoration: none; border-radius: 3px; transition: background 0.15s; }
+.hero-cta:hover { background: var(--ink-2); }
 
-.about p {
-  font-family: 'Poppins', sans-serif;
-  font-size: 18px;
-  color: #555;
-  line-height: 1.6;
+/* ── GALLERY ── */
+.gallery { padding: 80px 0 100px; overflow: hidden; background: var(--cream-2); border-bottom: 1px solid var(--cream-3); }
+.gallery-header { padding: 0 48px; margin-bottom: 48px; }
+.section-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rust); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.section-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--rust); }
+.section-title { font-family: var(--font-serif); font-size: clamp(28px, 4vw, 44px); font-weight: 300; color: var(--ink); line-height: 1.15; }
+.section-title em { font-style: italic; }
+
+.carousel-wrap { position: relative; }
+.carousel-track-outer { overflow: hidden; position: relative; }
+.carousel-track-outer::before,
+.carousel-track-outer::after { content: ''; position: absolute; top: 0; height: 100%; width: 60px; z-index: 10; pointer-events: none; }
+.carousel-track-outer::before { left: 0; background: linear-gradient(to right, var(--cream-2), transparent); }
+.carousel-track-outer::after  { right: 0; background: linear-gradient(to left, var(--cream-2), transparent); }
+
+.carousel-track { display: flex; gap: 12px; list-style: none; padding: 0 48px; transition: transform 0.6s cubic-bezier(0.65,0,0.35,1); }
+.carousel-slide { flex: 0 0 calc(20% - 10px); }
+.carousel-slide img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; border-radius: 4px; filter: sepia(8%); transition: filter 0.3s, transform 0.3s; }
+.carousel-slide img:hover { filter: sepia(0%); transform: scale(1.02); }
+
+.carousel-controls { display: flex; justify-content: center; gap: 12px; margin-top: 32px; }
+.c-btn { width: 44px; height: 44px; border: 1px solid var(--cream-3); background: var(--cream); border-radius: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--ink-soft); transition: border-color 0.15s, color 0.15s; }
+.c-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ── SOCIALS ── */
+.socials-section { padding: 64px 48px; display: flex; flex-direction: column; align-items: center; gap: 32px; border-bottom: 1px solid var(--cream-3); }
+.socials-title { font-family: var(--font-serif); font-size: 20px; font-weight: 300; font-style: italic; color: var(--ink-soft); }
+.socials-links { display: flex; gap: 48px; align-items: center; }
+.social-link { display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; transition: transform 0.2s; }
+.social-link:hover { transform: translateY(-3px); }
+.social-link img { width: 36px; height: 36px; opacity: 0.65; transition: opacity 0.2s; }
+.social-link:hover img { opacity: 1; }
+.social-link span { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); font-weight: 500; }
+.social-update { font-family: var(--font-serif); font-size: 16px; font-style: italic; color: var(--ink-soft); }
+.social-update a { color: #1877F2; text-decoration: none; }
+.social-update a:hover { text-decoration: underline; }
+
+/* ── ABOUT ── */
+.about { padding: 100px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; border-bottom: 1px solid var(--cream-3); }
+.about-text-block { display: flex; flex-direction: column; gap: 24px; }
+.about-body { font-family: var(--font-serif); font-size: 19px; font-weight: 300; line-height: 1.75; color: var(--ink-soft); }
+.about-body strong { font-weight: 600; color: var(--ink); }
+.about-aside { background: var(--cream-2); border: 1px solid var(--cream-3); border-radius: 6px; padding: 48px; display: flex; flex-direction: column; gap: 32px; }
+.aside-stat-num { font-family: var(--font-serif); font-size: 48px; font-weight: 300; color: var(--ink); line-height: 1; letter-spacing: -0.02em; }
+.aside-stat-label { font-size: 12px; font-weight: 500; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; margin-top: 4px; }
+.aside-divider { height: 1px; background: var(--cream-3); }
+
+/* ── MAP ── */
+.map-section { border-bottom: 1px solid var(--cream-3); }
+.map-header { padding: 64px 48px 40px; }
+.map-iframe-wrap { width: 100%; height: 450px; }
+.map-iframe-wrap iframe { width: 100%; height: 100%; border: 0; filter: sepia(12%) contrast(1.04); display: block; }
+
+/* ── FOOTER (contains contact + copyright) ── */
+footer {
+  background: var(--ink);
+  color: var(--cream);
 }
+.footer-contact {
+  padding: 56px 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.footer-cell { padding: 0 40px; border-right: 1px solid rgba(255,255,255,0.07); }
+.footer-cell:first-child { padding-left: 0; }
+.footer-cell:last-child { border-right: none; }
+.footer-cell-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(247,243,237,0.3); font-weight: 500; margin-bottom: 8px; }
+.footer-cell-value { font-family: var(--font-serif); font-size: 20px; font-weight: 300; color: var(--cream); text-decoration: none; display: block; transition: color 0.15s; cursor: pointer; }
+.footer-cell-value:hover { color: rgba(247,243,237,0.75); }
+.copy-hint { font-size: 11px; color: rgba(247,243,237,0.28); margin-top: 4px; }
 
-/* --- MOBILE --- */
+.footer-bottom {
+  padding: 20px 48px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--ink-2);
+}
+.footer-brand { font-family: var(--font-display); font-size: 26px; color: var(--cream); opacity: 0.6; }
+.footer-copy { font-size: 12px; color: rgba(247,243,237,0.28); }
+
+/* ── FADE ── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.fade { opacity: 0; }
+.fade.in { animation: fadeUp 0.5s ease forwards; }
+.fade-d1 { animation-delay: 0.1s; }
+.fade-d2 { animation-delay: 0.2s; }
+.fade-d3 { animation-delay: 0.3s; }
+
+/* ── MOBILE ── */
 @media (max-width: 768px) {
-  /* Karuzela ukryta, w tle statyczne skarpety */
-  .carousel { display: none; }
-  .carousel-mobile {
-    display: block;
-    height: 700px;
-    background: url('images/skarpetki-bg.jpg') center/cover no-repeat;
-    border-radius: 12px;
-    margin: 20px 5%;
-  }
-
-  .carousel-slide { flex: 0 0 80%; }
-  .carousel-slide img { max-width: 90vw; height: auto; }
-  .carousel-btn { width: 40px; height: 40px; font-size: 24px; }
-  .carousel-track-container::before,
-  .carousel-track-container::after { width: 30px; }
-  p.updates { font-size: 16px; }
-  .socials a img { width: 100px; }
-
-  header h1 { font-size: 120px; }
-  header p { font-size: 24px; }
-  .carousel-btn { width: 60px; height: 60px; font-size: 40px; }
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 80px 20px 56px; }
+  .hero h1 { font-size: clamp(72px, 22vw, 130px); }
+  .gallery-header { padding: 0 20px; }
+  .carousel-track { padding: 0 20px; }
+  .carousel-slide { flex: 0 0 68%; }
+  .socials-section { padding: 48px 20px; }
+  .about { grid-template-columns: 1fr; gap: 40px; padding: 60px 20px; }
+  .map-header { padding: 48px 20px 28px; }
+  .footer-contact { grid-template-columns: 1fr; padding: 40px 20px; gap: 0; }
+  .footer-cell { padding: 0 0 24px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 24px; }
+  .footer-cell:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .footer-bottom { flex-direction: column; gap: 6px; text-align: center; padding: 16px 20px; }
 }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Relax</h1>
-  <p>• Producent Skarpet i Rajstop •</p>
-</header>
+<nav>
+  <a href="#" class="nav-brand">Relax</a>
+  <ul class="nav-links">
+    <li><a href="#kolekcja">Kolekcja</a></li>
+    <li><a href="#o-nas">O nas</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <a href="tel:+48604868085" class="nav-contact">+48 604 868 085</a>
+</nav>
 
-<!-- Karuzela PC -->
-<section class="carousel">
-  <button class="carousel-btn prev">❮</button>
-  <div class="carousel-track-container">
-    <ul class="carousel-track">
-      <li class="carousel-slide"><img src="images/img1.jpg" alt=""></li>
-      <li class="carousel-slide"><img src="images/img2.jpg" alt=""></li>
-      <li class="carousel-slide"><img src="images/img3.jpg" alt=""></li>
-      <li class="carousel-slide"><img src="images/img4.jpg" alt=""></li>
-      <li class="carousel-slide"><img src="images/img5.jpg" alt=""></li>
-      <li class="carousel-slide"><img src="images/img6.jpg" alt=""></li>
-      <li class="carousel-slide"><img src="images/img7.jpg" alt=""></li>
-      <li class="carousel-slide"><img src="images/img8.jpg" alt=""></li>
-      <li class="carousel-slide"><img src="images/img9.jpg" alt=""></li>
-      <li class="carousel-slide"><img src="images/img10.jpg" alt=""></li>
-    </ul>
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-rule fade"><span>Od 1992 roku</span></div>
+  <h1 class="fade fade-d1">Relax</h1>
+  <p class="hero-tagline fade fade-d2">Producent skarpet i rajstop</p>
+  <div class="hero-badges fade fade-d3">
+    <span class="badge">Tomaszów Lubelski</span>
+    <span class="badge">Produkcja polska</span>
+    <span class="badge">Hurt i detal</span>
   </div>
-  <button class="carousel-btn next">❯</button>
+  <a href="#kolekcja" class="hero-cta fade fade-d3">Zobacz kolekcję ↓</a>
 </section>
 
-<!-- Tło na mobile -->
-<section class="carousel-mobile"></section>
-
-<section class="socials">
-  <a href="https://www.facebook.com/RelaxSkarpety?locale=pl_PL"><img src="icons/facebook.svg" alt="Facebook" width="150"></a>
-  <a href="https://www.instagram.com/relax.skarpety/"><img src="icons/instagram.svg" alt="Instagram" width="150"></a>
-</section>
-
-<p class="updates">
-  Najnowsze aktualizacje naszych produktów dostępne na 
-  <a href="https://www.facebook.com/RelaxSkarpety" target="_blank" style="color:#1877F2; text-decoration: none;">Facebook</a>.
-</p>
-
-<section class="map">
-  <h2>Gdzie nas znaleźć?</h2>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d635.1364904721734!2d23.420009128585807!3d50.449557298217066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4724a627021b38a1%3A0xcf8136404e17eef4!2srelax%20skarpety!5e0!3m2!1spl!2spl!4v1756070618211!5m2!1spl!2spl" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</section>
-
-<section class="about">
-  <h2>O nas</h2>
-  <p>
-    Firma Relax z siedzibą w Tomaszowie Lubelskim zajmuje się produkcją skarpet już od 1992 roku.<br>
-    W przeciągu kilkudziesięciu lat wypracowaliśmy wizerunek solidnej, sprawdzonej firmy wychodzącej naprzeciw oczekiwaniom klientów i panującym trendom.<br>
-    Dzięki profesjonalnemu parkowi maszynowemu stosujemy bogatą kolorystykę oraz wzornictwo.<br>
-    Wysokiej jakości surowce z których produkowane są nasze wyroby nadają im cenioną przez klienta trwałość oraz estetykę.<br>
-    Posiadamy atrakcyjne ceny zarówno dla klientów indywidualnych, sklepów oraz hurtowni.<br><br>
-    Serdecznie zapraszamy do współpracy.
-  </p>
-</section>
-
-<footer>
-  <div class="footer-container">
-    <div class="footer-section">
-      <h3>Szybki kontakt</h3>
-      <p>☎ Telefon: +48 604 868 085</p>
-      <p id="email" style="cursor:pointer;">✉ E-mail: relaxskarpety@interia.pl</p>
+<!-- GALLERY -->
+<section class="gallery" id="kolekcja">
+  <div class="gallery-header">
+    <div class="section-eyebrow">Kolekcja</div>
+    <h2 class="section-title">Nasze <em>wyroby</em></h2>
+  </div>
+  <div class="carousel-wrap">
+    <div class="carousel-track-outer">
+      <ul class="carousel-track" id="track">
+        <li class="carousel-slide"><img src="images/img1.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img2.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img3.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img4.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img5.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img6.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img7.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img8.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img9.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img10.jpg" alt="Skarpety Relax"></li>
+      </ul>
     </div>
-    <div class="footer-section">
-      <h3>Godziny otwarcia</h3>
-      <p>Poniedziałek - piątek: 09:00 - 17:00</p>
-      <p>Sobota: 09:00 - 14:00</p>
+    <div class="carousel-controls">
+      <button class="c-btn" id="prev" aria-label="Poprzedni">←</button>
+      <button class="c-btn" id="next" aria-label="Następny">→</button>
     </div>
   </div>
-  <p>© 2025 RelaxSkarpety. Wszelkie prawa zastrzeżone.</p>
+</section>
+
+<!-- SOCIALS -->
+<section class="socials-section">
+  <p class="socials-title">Śledź nas w mediach społecznościowych</p>
+  <div class="socials-links">
+    <a href="https://www.facebook.com/RelaxSkarpety?locale=pl_PL" target="_blank" class="social-link">
+      <img src="icons/facebook.svg" alt="Facebook">
+      <span>Facebook</span>
+    </a>
+    <a href="https://www.instagram.com/relax.skarpety/" target="_blank" class="social-link">
+      <img src="icons/instagram.svg" alt="Instagram">
+      <span>Instagram</span>
+    </a>
+  </div>
+  <p class="social-update">Najnowsze aktualizacje produktów na <a href="https://www.facebook.com/RelaxSkarpety" target="_blank">Facebooku</a></p>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="o-nas">
+  <div class="about-text-block">
+    <div class="section-eyebrow">O nas</div>
+    <h2 class="section-title">Tradycja <em>i jakość</em></h2>
+    <p class="about-body">Firma <strong>Relax</strong> z siedzibą w Tomaszowie Lubelskim zajmuje się produkcją skarpet już od 1992 roku. W przeciągu kilkudziesięciu lat wypracowaliśmy wizerunek <strong>solidnej, sprawdzonej firmy</strong> wychodzącej naprzeciw oczekiwaniom klientów i panującym trendom.</p>
+    <p class="about-body">Dzięki profesjonalnemu parkowi maszynowemu stosujemy bogatą kolorystykę oraz wzornictwo. Wysokiej jakości surowce nadają naszym wyrobom cenioną przez klienta <strong>trwałość oraz estetykę</strong>.</p>
+    <p class="about-body">Posiadamy atrakcyjne ceny zarówno dla klientów indywidualnych, sklepów oraz hurtowni. Serdecznie zapraszamy do współpracy.</p>
+  </div>
+  <div class="about-aside">
+    <div>
+      <div class="aside-stat-num">1992</div>
+      <div class="aside-stat-label">rok założenia</div>
+    </div>
+    <div class="aside-divider"></div>
+    <div>
+      <div class="aside-stat-num">30+</div>
+      <div class="aside-stat-label">lat doświadczenia</div>
+    </div>
+    <div class="aside-divider"></div>
+    <div>
+      <div class="aside-stat-num">PL</div>
+      <div class="aside-stat-label">produkcja w Polsce</div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="map-section" id="gdzie">
+  <div class="map-header">
+    <div class="section-eyebrow">Lokalizacja</div>
+    <h2 class="section-title">Gdzie <em>nas znaleźć</em></h2>
+  </div>
+  <div class="map-iframe-wrap">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d635.1364904721734!2d23.420009128585807!3d50.449557298217066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4724a627021b38a1%3A0xcf8136404e17eef4!2srelax%20skarpety!5e0!3m2!1spl!2spl!4v1756070618211!5m2!1spl!2spl" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Relax Skarpety — mapa"></iframe>
+  </div>
+</section>
+
+<!-- FOOTER (contact + copyright w jednym bloku) -->
+<footer id="kontakt">
+  <div class="footer-contact">
+    <div class="footer-cell">
+      <div class="footer-cell-label">Telefon</div>
+      <a href="tel:+48604868085" class="footer-cell-value">+48 604 868 085</a>
+    </div>
+    <div class="footer-cell">
+      <div class="footer-cell-label">E-mail</div>
+      <span class="footer-cell-value" id="email-copy">relaxskarpety@interia.pl</span>
+      <div class="copy-hint" id="copy-hint">kliknij aby skopiować</div>
+    </div>
+    <div class="footer-cell">
+      <div class="footer-cell-label">Godziny otwarcia</div>
+      <span class="footer-cell-value" style="cursor:default; font-size:17px;">
+        Pn – Pt &nbsp;09:00 – 17:00<br>
+        Sobota &nbsp;09:00 – 14:00
+      </span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-brand">Relax</div>
+    <div class="footer-copy">© 2026 Relax Skarpety · Tomaszów Lubelski · Wszelkie prawa zastrzeżone</div>
+  </div>
 </footer>
 
 <script>
-// PC karuzela
-const track = document.querySelector('.carousel-track');
-const prevButton = document.querySelector('.prev');
-const nextButton = document.querySelector('.next');
-const carouselSection = document.querySelector('.carousel');
-const slides = Array.from(track.children);
+// Carousel
+const track = document.getElementById('track');
+let isMoving = false, autoTimer;
 
-function getSlideWidth() {
-  const style = getComputedStyle(slides[0]);
-  return slides[0].getBoundingClientRect().width 
-    + parseFloat(style.marginLeft) 
-    + parseFloat(style.marginRight);
+function sw() {
+  const s = track.children[0];
+  return s.getBoundingClientRect().width + 12;
 }
-
-let isMoving = false;
-
-function moveNext() {
-  if (isMoving) return;
-  isMoving = true;
-  const slideWidth = getSlideWidth();
-  track.style.transition = 'transform 0.6s cubic-bezier(0.65,0,0.35,1)';
-  track.style.transform = `translateX(-${slideWidth}px)`;
+function next() {
+  if (isMoving) return; isMoving = true;
+  track.style.transition = 'transform .6s cubic-bezier(.65,0,.35,1)';
+  track.style.transform = `translateX(-${sw()}px)`;
   track.addEventListener('transitionend', () => {
     track.appendChild(track.firstElementChild);
     track.style.transition = 'none';
@@ -260,41 +329,43 @@ function moveNext() {
     isMoving = false;
   }, { once: true });
 }
-
-function movePrev() {
-  if (isMoving) return;
-  isMoving = true;
-  const slideWidth = getSlideWidth();
+function prev() {
+  if (isMoving) return; isMoving = true;
   track.insertBefore(track.lastElementChild, track.firstElementChild);
   track.style.transition = 'none';
-  track.style.transform = `translateX(-${slideWidth}px)`;
-  requestAnimationFrame(() => {
-    track.style.transition = 'transform 0.6s cubic-bezier(0.65,0,0.35,1)';
+  track.style.transform = `translateX(-${sw()}px)`;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    track.style.transition = 'transform .6s cubic-bezier(.65,0,.35,1)';
     track.style.transform = 'translateX(0)';
-  });
+  }));
   track.addEventListener('transitionend', () => { isMoving = false; }, { once: true });
 }
+function startAuto() { clearInterval(autoTimer); autoTimer = setInterval(next, 3500); }
+function stopAuto()  { clearInterval(autoTimer); }
 
-let autoInterval;
-function startAuto() { clearInterval(autoInterval); autoInterval = setInterval(moveNext, 3000); }
-function stopAuto() { clearInterval(autoInterval); }
-
-nextButton.addEventListener('click', () => { moveNext(); startAuto(); });
-prevButton.addEventListener('click', () => { movePrev(); startAuto(); });
-
-carouselSection.addEventListener('mouseenter', stopAuto);
-carouselSection.addEventListener('mouseleave', startAuto);
+document.getElementById('next').addEventListener('click', () => { next(); startAuto(); });
+document.getElementById('prev').addEventListener('click', () => { prev(); startAuto(); });
+document.querySelector('.carousel-wrap').addEventListener('mouseenter', stopAuto);
+document.querySelector('.carousel-wrap').addEventListener('mouseleave', startAuto);
 startAuto();
 
-// Kopiowanie email
-const emailElement = document.getElementById('email');
-emailElement.addEventListener('click', () => {
-  const email = "relaxskarpety@interia.pl";
-  navigator.clipboard.writeText(email).then(() => {
-    alert("Adres e-mail skopiowany do schowka!");
-  }).catch(err => { console.error("Nie udało się skopiować:", err); });
+// Email copy
+const emailEl  = document.getElementById('email-copy');
+const copyHint = document.getElementById('copy-hint');
+emailEl.addEventListener('click', () => {
+  navigator.clipboard.writeText('relaxskarpety@interia.pl').then(() => {
+    copyHint.textContent = '✓ skopiowano';
+    copyHint.style.color = 'rgba(247,243,237,0.6)';
+    setTimeout(() => { copyHint.textContent = 'kliknij aby skopiować'; copyHint.style.color = ''; }, 2500);
+  });
 });
-</script>
 
+// Fade in
+const io = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
+  { threshold: 0.12 }
+);
+document.querySelectorAll('.fade').forEach(el => io.observe(el));
+</script>
 </body>
 </html>
