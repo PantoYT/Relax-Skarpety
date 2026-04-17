@@ -66,11 +66,8 @@ nav {
 .hero-tagline { font-family: var(--font-serif); font-size: clamp(18px, 2.5vw, 28px); font-weight: 300; font-style: italic; color: var(--ink-soft); letter-spacing: 0.04em; margin-bottom: 40px; }
 .hero-badges { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
 .badge { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 16px; border: 1px solid var(--cream-3); border-radius: 2px; color: var(--ink-soft); font-weight: 500; }
-.hero-cta-group { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
 .hero-cta { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; padding: 14px 36px; background: var(--ink); color: var(--cream); text-decoration: none; border-radius: 3px; transition: background 0.15s; }
 .hero-cta:hover { background: var(--ink-2); }
-.hero-cta-outline { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; padding: 14px 36px; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; border-radius: 3px; transition: background 0.15s, color 0.15s; }
-.hero-cta-outline:hover { background: var(--ink); color: var(--cream); }
 
 /* ── GALLERY ── */
 .gallery { padding: 80px 0 100px; overflow: hidden; background: var(--cream-2); border-bottom: 1px solid var(--cream-3); }
@@ -89,34 +86,12 @@ nav {
 
 .carousel-track { display: flex; gap: 12px; list-style: none; padding: 0 48px; transition: transform 0.6s cubic-bezier(0.65,0,0.35,1); }
 .carousel-slide { flex: 0 0 calc(20% - 10px); }
-.carousel-slide a { display: block; cursor: zoom-in; }
 .carousel-slide img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; border-radius: 4px; filter: sepia(8%); transition: filter 0.3s, transform 0.3s; }
-.carousel-slide a:hover img { filter: sepia(0%); transform: scale(1.02); }
+.carousel-slide img:hover { filter: sepia(0%); transform: scale(1.02); }
 
 .carousel-controls { display: flex; justify-content: center; gap: 12px; margin-top: 32px; }
 .c-btn { width: 44px; height: 44px; border: 1px solid var(--cream-3); background: var(--cream); border-radius: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--ink-soft); transition: border-color 0.15s, color 0.15s; }
 .c-btn:hover { border-color: var(--ink); color: var(--ink); }
-
-/* ── LIGHTBOX ── */
-.lightbox-overlay {
-  display: none; position: fixed; inset: 0; z-index: 900;
-  background: rgba(26,23,20,0.92); align-items: center; justify-content: center;
-  cursor: zoom-out;
-}
-.lightbox-overlay.active { display: flex; }
-.lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 4px; box-shadow: 0 24px 80px rgba(0,0,0,0.5); }
-.lightbox-close { position: absolute; top: 24px; right: 32px; font-size: 32px; color: rgba(247,243,237,0.7); cursor: pointer; background: none; border: none; line-height: 1; transition: color 0.15s; }
-.lightbox-close:hover { color: var(--cream); }
-.lightbox-prev, .lightbox-next {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  background: rgba(247,243,237,0.08); border: 1px solid rgba(247,243,237,0.15);
-  color: var(--cream); font-size: 22px; width: 50px; height: 50px;
-  border-radius: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: background 0.15s;
-}
-.lightbox-prev:hover, .lightbox-next:hover { background: rgba(247,243,237,0.2); }
-.lightbox-prev { left: 20px; }
-.lightbox-next { right: 20px; }
 
 /* ── SOCIALS ── */
 .socials-section { padding: 64px 48px; display: flex; flex-direction: column; align-items: center; gap: 32px; border-bottom: 1px solid var(--cream-3); }
@@ -147,223 +122,32 @@ nav {
 .map-iframe-wrap { width: 100%; height: 450px; }
 .map-iframe-wrap iframe { width: 100%; height: 100%; border: 0; filter: sepia(12%) contrast(1.04); display: block; }
 
-/* ── ORDER SECTION ── */
-.order-section {
-  padding: 100px 48px;
-  background: var(--cream-2);
-  border-bottom: 1px solid var(--cream-3);
+/* ── FOOTER (contains contact + copyright) ── */
+footer {
+  background: var(--ink);
+  color: var(--cream);
 }
-.order-inner {
-  max-width: 680px;
-  margin: 0 auto;
-}
-.order-inner .section-eyebrow { margin-bottom: 10px; }
-.order-inner .section-title { margin-bottom: 12px; }
-.order-desc {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  font-weight: 300;
-  color: var(--ink-soft);
-  line-height: 1.7;
-  margin-bottom: 40px;
-}
-
-/* ORDER FORM */
-.order-form { display: flex; flex-direction: column; gap: 20px; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.form-group { display: flex; flex-direction: column; gap: 8px; }
-.form-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; }
-.form-input, .form-select, .form-textarea {
-  font-family: var(--font-body);
-  font-size: 14px;
-  color: var(--ink);
-  background: var(--cream);
-  border: 1px solid var(--cream-3);
-  border-radius: 3px;
-  padding: 12px 14px;
-  transition: border-color 0.15s;
-  outline: none;
-  width: 100%;
-}
-.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--ink); }
-.form-select { cursor: pointer; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231a1714' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
-.form-textarea { resize: vertical; min-height: 90px; }
-
-/* PRODUCT ROWS */
-.products-list { display: flex; flex-direction: column; gap: 12px; }
-.product-row {
+.footer-contact {
+  padding: 56px 48px;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
-  gap: 10px;
-  align-items: end;
-  padding: 16px;
-  background: var(--cream);
-  border: 1px solid var(--cream-3);
-  border-radius: 4px;
+  grid-template-columns: 1fr 1fr 1fr;
 }
-.product-row-num {
-  grid-column: 1 / -1;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-.remove-row {
-  background: none;
-  border: 1px solid var(--cream-3);
-  border-radius: 3px;
-  width: 36px; height: 36px;
-  cursor: pointer;
-  color: var(--ink-soft);
-  font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.15s, color 0.15s;
-  align-self: flex-end;
-}
-.remove-row:hover { border-color: var(--rust); color: var(--rust); }
-
-.add-row-btn {
-  background: none;
-  border: 1px dashed var(--cream-3);
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--ink-soft);
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: border-color 0.15s, color 0.15s;
-  width: 100%;
-}
-.add-row-btn:hover { border-color: var(--ink); color: var(--ink); }
-
-.form-divider { height: 1px; background: var(--cream-3); }
-
-.submit-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  font-size: 14px; font-weight: 500;
-  padding: 16px 40px;
-  background: var(--ink); color: var(--cream);
-  border: none; border-radius: 3px;
-  cursor: pointer;
-  transition: background 0.15s;
-  width: 100%;
-}
-.submit-btn:hover:not(:disabled) { background: var(--ink-2); }
-.submit-btn:disabled { opacity: 0.5; cursor: default; }
-
-.order-notice {
-  font-size: 12px;
-  color: var(--ink-dim);
-  line-height: 1.6;
-  text-align: center;
-}
-
-/* Stripe badge */
-.stripe-badge {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  font-size: 11px; color: var(--ink-dim); margin-top: 4px;
-}
-.stripe-badge svg { opacity: 0.4; }
-
-/* Order success */
-.order-success {
-  display: none;
-  text-align: center;
-  padding: 48px 24px;
-  border: 1px solid var(--cream-3);
-  border-radius: 6px;
-  background: var(--cream);
-}
-.order-success.show { display: block; }
-.success-icon { font-size: 48px; margin-bottom: 16px; }
-.success-title { font-family: var(--font-serif); font-size: 28px; font-weight: 300; color: var(--ink); margin-bottom: 8px; }
-.success-body { font-family: var(--font-serif); font-size: 18px; font-weight: 300; color: var(--ink-soft); line-height: 1.6; }
-
-/* ── FOOTER — CONTACT BAND ── */
-.footer-contact-band {
-  background: #2a2320;
-  padding: 72px 48px 56px;
-  border-top: 3px solid var(--rust);
-}
-.footer-contact-top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 48px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.footer-brand-large {
-  font-family: var(--font-display);
-  font-size: 52px;
-  color: #fff;
-  line-height: 1;
-  opacity: 0.9;
-}
-.footer-contact-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
-  font-weight: 500;
-}
-
-.footer-contact-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-}
-.footer-cell {
-  padding: 0 40px;
-  border-right: 1px solid rgba(255,255,255,0.07);
-}
+.footer-cell { padding: 0 40px; border-right: 1px solid rgba(255,255,255,0.07); }
 .footer-cell:first-child { padding-left: 0; }
 .footer-cell:last-child { border-right: none; }
+.footer-cell-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(247,243,237,0.3); font-weight: 500; margin-bottom: 8px; }
+.footer-cell-value { font-family: var(--font-serif); font-size: 20px; font-weight: 300; color: var(--cream); text-decoration: none; display: block; transition: color 0.15s; cursor: pointer; }
+.footer-cell-value:hover { color: rgba(247,243,237,0.75); }
+.copy-hint { font-size: 11px; color: rgba(247,243,237,0.28); margin-top: 4px; }
 
-.footer-cell-label {
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-.footer-cell-value {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: 300;
-  color: #f0ebe3;
-  text-decoration: none;
-  display: block;
-  line-height: 1.3;
-  transition: color 0.15s;
-  cursor: pointer;
-}
-.footer-cell-value:hover { color: #fff; }
-.copy-hint {
-  font-size: 11px;
-  color: rgba(255,255,255,0.22);
-  margin-top: 6px;
-  letter-spacing: 0.04em;
-}
-.hours-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
-.hours-day { font-size: 13px; color: rgba(255,255,255,0.4); }
-.hours-time { font-size: 13px; color: #f0ebe3; font-weight: 500; }
-
-/* ── FOOTER BOTTOM ── */
 .footer-bottom {
-  background: #1a1410;
-  padding: 18px 48px;
+  padding: 20px 48px;
+  border-top: 1px solid rgba(255,255,255,0.06);
   display: flex; align-items: center; justify-content: space-between;
+  background: var(--ink-2);
 }
-.footer-copy { font-size: 12px; color: rgba(255,255,255,0.22); letter-spacing: 0.02em; }
-.footer-links { display: flex; gap: 20px; }
-.footer-links a { font-size: 12px; color: rgba(255,255,255,0.22); text-decoration: none; transition: color 0.15s; }
-.footer-links a:hover { color: rgba(255,255,255,0.55); }
+.footer-brand { font-family: var(--font-display); font-size: 26px; color: var(--cream); opacity: 0.6; }
+.footer-copy { font-size: 12px; color: rgba(247,243,237,0.28); }
 
 /* ── FADE ── */
 @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
@@ -380,34 +164,15 @@ nav {
   .hero { padding: 80px 20px 56px; }
   .hero h1 { font-size: clamp(72px, 22vw, 130px); }
   .gallery-header { padding: 0 20px; }
-  .carousel-track { 
-    padding: 0;
-    justify-content: center;
-  }
-  .carousel-track-outer { padding: 0 20px; }
-  .carousel-track-outer::before { left: 0; }
-  .carousel-track-outer::after { right: 0; }
-  .carousel-slide { flex: 0 0 72%; max-width: 280px; }
+  .carousel-track { padding: 0 20px; }
+  .carousel-slide { flex: 0 0 68%; }
   .socials-section { padding: 48px 20px; }
   .about { grid-template-columns: 1fr; gap: 40px; padding: 60px 20px; }
   .map-header { padding: 48px 20px 28px; }
-  .order-section { padding: 60px 20px; }
-  .form-row { grid-template-columns: 1fr; }
-  .product-row { grid-template-columns: 1fr 1fr; }
-  .product-row-num { grid-column: 1 / -1; }
-  .remove-row { grid-column: 2; justify-self: end; }
-
-  /* Footer mobile */
-  .footer-contact-band { padding: 48px 20px 40px; }
-  .footer-contact-top { flex-direction: column; gap: 8px; }
-  .footer-brand-large { font-size: 40px; }
-  .footer-contact-grid { grid-template-columns: 1fr; gap: 32px; }
-  .footer-cell { padding: 0; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); padding-bottom: 28px; }
-  .footer-cell:last-child { border-bottom: none; padding-bottom: 0; }
-  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; padding: 16px 20px; }
-  .hero-cta-group { flex-direction: column; align-items: center; }
-  .lightbox-prev { left: 8px; }
-  .lightbox-next { right: 8px; }
+  .footer-contact { grid-template-columns: 1fr; padding: 40px 20px; gap: 0; }
+  .footer-cell { padding: 0 0 24px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 24px; }
+  .footer-cell:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .footer-bottom { flex-direction: column; gap: 6px; text-align: center; padding: 16px 20px; }
 }
 </style>
 </head>
@@ -417,7 +182,6 @@ nav {
   <a href="#" class="nav-brand">Relax</a>
   <ul class="nav-links">
     <li><a href="#kolekcja">Kolekcja</a></li>
-    <li><a href="#zamowienie">Zamówienie</a></li>
     <li><a href="#o-nas">O nas</a></li>
     <li><a href="#kontakt">Kontakt</a></li>
   </ul>
@@ -434,10 +198,7 @@ nav {
     <span class="badge">Produkcja polska</span>
     <span class="badge">Hurt i detal</span>
   </div>
-  <div class="hero-cta-group fade fade-d3">
-    <a href="#kolekcja" class="hero-cta">Zobacz kolekcję ↓</a>
-    <a href="#zamowienie" class="hero-cta-outline">Złóż zamówienie</a>
-  </div>
+  <a href="#kolekcja" class="hero-cta fade fade-d3">Zobacz kolekcję ↓</a>
 </section>
 
 <!-- GALLERY -->
@@ -449,19 +210,16 @@ nav {
   <div class="carousel-wrap">
     <div class="carousel-track-outer">
       <ul class="carousel-track" id="track">
-        <li class="carousel-slide"><a href="images/img1.jpg" class="slide-link" data-index="0"><img src="images/img1.jpg" alt="Skarpety Relax"></a></li>
-        <li class="carousel-slide"><a href="images/img2.jpg" class="slide-link" data-index="1"><img src="images/img2.jpg" alt="Skarpety Relax"></a></li>
-        <li class="carousel-slide"><a href="images/img3.jpg" class="slide-link" data-index="2"><img src="images/img3.jpg" alt="Skarpety Relax"></a></li>
-        <li class="carousel-slide"><a href="images/img4.jpg" class="slide-link" data-index="3"><img src="images/img4.jpg" alt="Skarpety Relax"></a></li>
-        <li class="carousel-slide"><a href="images/img5.jpg" class="slide-link" data-index="4"><img src="images/img5.jpg" alt="Skarpety Relax"></a></li>
-        <li class="carousel-slide"><a href="images/img6.jpg" class="slide-link" data-index="5"><img src="images/img6.jpg" alt="Skarpety Relax"></a></li>
-        <li class="carousel-slide"><a href="images/img7.jpg" class="slide-link" data-index="6"><img src="images/img7.jpg" alt="Skarpety Relax"></a></li>
-        <li class="carousel-slide"><a href="images/img8.jpg" class="slide-link" data-index="7"><img src="images/img8.jpg" alt="Skarpety Relax"></a></li>
-        <li class="carousel-slide"><a href="images/img9.jpg" class="slide-link" data-index="8"><img src="images/img9.jpg" alt="Skarpety Relax"></a></li>
-        <li class="carousel-slide"><a href="images/img10.jpg" class="slide-link" data-index="9"><img src="images/img10.jpg" alt="Skarpety Relax"></a></li>
-        <!-- Dodatkowe sloty na więcej zdjęć — wystarczy odkomentować i podmienić -->
-        <!-- <li class="carousel-slide"><a href="images/img11.jpg" class="slide-link" data-index="10"><img src="images/img11.jpg" alt="Skarpety Relax"></a></li> -->
-        <!-- <li class="carousel-slide"><a href="images/img12.jpg" class="slide-link" data-index="11"><img src="images/img12.jpg" alt="Skarpety Relax"></a></li> -->
+        <li class="carousel-slide"><img src="images/img1.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img2.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img3.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img4.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img5.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img6.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img7.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img8.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img9.jpg" alt="Skarpety Relax"></li>
+        <li class="carousel-slide"><img src="images/img10.jpg" alt="Skarpety Relax"></li>
       </ul>
     </div>
     <div class="carousel-controls">
@@ -470,14 +228,6 @@ nav {
     </div>
   </div>
 </section>
-
-<!-- LIGHTBOX -->
-<div class="lightbox-overlay" id="lightbox">
-  <button class="lightbox-close" id="lb-close">✕</button>
-  <button class="lightbox-prev" id="lb-prev">←</button>
-  <img class="lightbox-img" id="lb-img" src="" alt="">
-  <button class="lightbox-next" id="lb-next">→</button>
-</div>
 
 <!-- SOCIALS -->
 <section class="socials-section">
@@ -522,85 +272,6 @@ nav {
   </div>
 </section>
 
-<!-- ORDER SECTION -->
-<section class="order-section" id="zamowienie">
-  <div class="order-inner">
-    <div class="section-eyebrow">Zamówienie</div>
-    <h2 class="section-title">Złóż <em>zamówienie</em></h2>
-    <p class="order-desc">Wypełnij formularz — otrzymamy Twoje zamówienie emailem i skontaktujemy się z Tobą w celu potwierdzenia i ustalenia płatności.</p>
-
-    <div id="order-form-wrap">
-      <div class="order-form" id="orderForm">
-
-        <!-- Dane kontaktowe -->
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="name">Imię i nazwisko *</label>
-            <input class="form-input" type="text" id="name" placeholder="Jan Kowalski" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="phone">Telefon *</label>
-            <input class="form-input" type="tel" id="phone" placeholder="+48 600 000 000" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="email">E-mail *</label>
-          <input class="form-input" type="email" id="email" placeholder="jan@example.com" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="company">Firma / nazwa sklepu (opcjonalnie)</label>
-          <input class="form-input" type="text" id="company" placeholder="np. Sklep odzieżowy ABC">
-        </div>
-
-        <div class="form-divider"></div>
-
-        <!-- Produkty -->
-        <div>
-          <div class="form-label" style="margin-bottom:12px;">Produkty *</div>
-          <div class="products-list" id="productsList">
-            <!-- Generowane przez JS -->
-          </div>
-          <button type="button" class="add-row-btn" id="addRowBtn">+ Dodaj kolejny produkt</button>
-        </div>
-
-        <div class="form-divider"></div>
-
-        <!-- Adres -->
-        <div class="form-group">
-          <label class="form-label" for="address">Adres dostawy (jeśli potrzebny)</label>
-          <input class="form-input" type="text" id="address" placeholder="ul. Przykładowa 1, 22-600 Tomaszów Lubelski">
-        </div>
-
-        <!-- Uwagi -->
-        <div class="form-group">
-          <label class="form-label" for="notes">Uwagi do zamówienia</label>
-          <textarea class="form-textarea" id="notes" placeholder="Np. preferowany termin odbioru, specjalne życzenia..."></textarea>
-        </div>
-
-        <button class="submit-btn" id="submitBtn" type="button">
-          <span id="submitLabel">Wyślij zamówienie →</span>
-        </button>
-
-        <p class="order-notice">
-          Po złożeniu zamówienia skontaktujemy się z Tobą telefonicznie lub mailowo w ciągu 1 dnia roboczego w celu potwierdzenia i ustalenia płatności (przelew / gotówka przy odbiorze).
-        </p>
-        <div class="stripe-badge">
-          <svg width="47" height="20" viewBox="0 0 47 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M46.1 10.2c0-3.4-1.6-6-4.7-6-3.2 0-5 2.6-5 5.9 0 3.9 2.2 5.9 5.4 5.9 1.5 0 2.7-.3 3.6-.9v-2.6c-.9.5-1.9.7-3.2.7-1.3 0-2.4-.4-2.5-1.9h6.3c.1-.2.1-.8.1-1.1zm-6.3-1.2c0-1.4.9-2 1.7-2 .8 0 1.6.6 1.6 2h-3.3zM32 4.2c-1.3 0-2.1.6-2.6 1l-.2-.8H26v15.6l3.4-.7V16c.5.3 1.2.8 2.5.8 2.5 0 4.8-2 4.8-6.4C36.7 6.2 34.4 4.2 32 4.2zm-.9 9.4c-.8 0-1.3-.3-1.6-.7V8c.4-.4.9-.7 1.6-.7 1.2 0 2 1.4 2 3.1 0 1.8-.8 3.2-2 3.2zM22 3l3.4-.7V0L22 .7V3zm0 1.4h3.4v11.2H22V4.4zm-3.7 1l-.2-1H15v11.2h3.4V8.4c.8-1 2.2-.9 2.6-.7V4.4c-.4-.2-2-.5-2.7 1zM11.4 1.9L8.1 2.6l-.1 9.8c0 1.8 1.4 3.1 3.2 3.1 1 0 1.7-.2 2.1-.4v-2.7c-.4.2-2.3.7-2.3-1V7.2h2.3V4.4h-2.3l.4-2.5zM3.2 7.1c0-.5.4-.7 1.1-.7 1 0 2.3.3 3.3.8V4c-1.1-.4-2.2-.6-3.3-.6C1.7 3.4 0 5 0 7.3c0 3.6 4.9 3 4.9 4.6 0 .6-.5.8-1.2.8-1.1 0-2.4-.4-3.5-1.1v3.2c1.2.5 2.4.8 3.5.8 2.7 0 4.5-1.3 4.5-3.7C8.2 8.1 3.2 8.8 3.2 7.1z" fill="#635BFF"/></svg>
-          <span>Bezpieczna obsługa płatności przez Stripe</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sukces -->
-    <div class="order-success" id="orderSuccess">
-      <div class="success-icon">✓</div>
-      <div class="success-title">Zamówienie wysłane!</div>
-      <p class="success-body">Dziękujemy — skontaktujemy się z Tobą wkrótce w celu potwierdzenia i ustalenia szczegółów.</p>
-    </div>
-
-  </div>
-</section>
-
 <!-- MAP -->
 <section class="map-section" id="gdzie">
   <div class="map-header">
@@ -612,50 +283,36 @@ nav {
   </div>
 </section>
 
-<!-- FOOTER — CONTACT BAND -->
+<!-- FOOTER (contact + copyright w jednym bloku) -->
 <footer id="kontakt">
-  <div class="footer-contact-band">
-    <div class="footer-contact-top">
-      <div class="footer-brand-large">Relax</div>
-      <div class="footer-contact-eyebrow">Dane kontaktowe</div>
+  <div class="footer-contact">
+    <div class="footer-cell">
+      <div class="footer-cell-label">Telefon</div>
+      <a href="tel:+48604868085" class="footer-cell-value">+48 604 868 085</a>
     </div>
-
-    <div class="footer-contact-grid">
-      <div class="footer-cell">
-        <div class="footer-cell-label">Telefon</div>
-        <a href="tel:+48604868085" class="footer-cell-value">+48 604 868 085</a>
-      </div>
-      <div class="footer-cell">
-        <div class="footer-cell-label">E-mail</div>
-        <span class="footer-cell-value" id="email-copy">relaxskarpety@interia.pl</span>
-        <div class="copy-hint" id="copy-hint">kliknij aby skopiować</div>
-      </div>
-      <div class="footer-cell">
-        <div class="footer-cell-label">Godziny otwarcia</div>
-        <div style="margin-top:2px;">
-          <div class="hours-row"><span class="hours-day">Pn – Pt</span><span class="hours-time">09:00 – 17:00</span></div>
-          <div class="hours-row"><span class="hours-day">Sobota</span><span class="hours-time">09:00 – 14:00</span></div>
-          <div class="hours-row"><span class="hours-day">Niedziela</span><span class="hours-time" style="color:rgba(255,255,255,0.3);">nieczynne</span></div>
-        </div>
-      </div>
+    <div class="footer-cell">
+      <div class="footer-cell-label">E-mail</div>
+      <span class="footer-cell-value" id="email-copy">relaxskarpety@interia.pl</span>
+      <div class="copy-hint" id="copy-hint">kliknij aby skopiować</div>
+    </div>
+    <div class="footer-cell">
+      <div class="footer-cell-label">Godziny otwarcia</div>
+      <span class="footer-cell-value" style="cursor:default; font-size:17px;">
+        Pn – Pt &nbsp;09:00 – 17:00<br>
+        Sobota &nbsp;09:00 – 14:00
+      </span>
     </div>
   </div>
-
-  <!-- FOOTER BOTTOM — DARK STRIP -->
   <div class="footer-bottom">
+    <div class="footer-brand">Relax</div>
     <div class="footer-copy">© 2026 Relax Skarpety · Tomaszów Lubelski · Wszelkie prawa zastrzeżone</div>
-    <div class="footer-links">
-      <a href="sitemap.xml">Sitemap</a>
-      <a href="#kontakt">Kontakt</a>
-    </div>
   </div>
 </footer>
 
 <script>
-/* ─── CAROUSEL ─── */
+// Carousel
 const track = document.getElementById('track');
 let isMoving = false, autoTimer;
-const allImages = Array.from(track.querySelectorAll('.slide-link')).map(a => a.href);
 
 function sw() {
   const s = track.children[0];
@@ -692,170 +349,7 @@ document.querySelector('.carousel-wrap').addEventListener('mouseenter', stopAuto
 document.querySelector('.carousel-wrap').addEventListener('mouseleave', startAuto);
 startAuto();
 
-/* ─── LIGHTBOX ─── */
-let lbIndex = 0;
-const lightbox = document.getElementById('lightbox');
-const lbImg    = document.getElementById('lb-img');
-
-function openLightbox(src) {
-  lbIndex = allImages.indexOf(src);
-  if (lbIndex < 0) lbIndex = 0;
-  lbImg.src = allImages[lbIndex];
-  lightbox.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox() {
-  lightbox.classList.remove('active');
-  document.body.style.overflow = '';
-}
-function lbShow(i) {
-  lbIndex = (i + allImages.length) % allImages.length;
-  lbImg.src = allImages[lbIndex];
-}
-
-document.querySelectorAll('.slide-link').forEach(a => {
-  a.addEventListener('click', e => { e.preventDefault(); openLightbox(a.href); });
-});
-document.getElementById('lb-close').addEventListener('click', closeLightbox);
-lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); lbShow(lbIndex - 1); });
-document.getElementById('lb-next').addEventListener('click', e => { e.stopPropagation(); lbShow(lbIndex + 1); });
-document.addEventListener('keydown', e => {
-  if (!lightbox.classList.contains('active')) return;
-  if (e.key === 'Escape') closeLightbox();
-  if (e.key === 'ArrowLeft') lbShow(lbIndex - 1);
-  if (e.key === 'ArrowRight') lbShow(lbIndex + 1);
-});
-
-/* ─── ORDER FORM ─── */
-const PRODUCT_NAMES = [
-  'Skarpety damskie', 'Skarpety męskie', 'Skarpety dziecięce',
-  'Rajstopy damskie', 'Rajstopy dziecięce', 'Skarpetki sportowe', 'Inne'
-];
-const SIZES = ['Uniwersalny', '19-22', '23-26', '27-30', '31-34', '35-38', '39-42', '43-46'];
-const COLORS = ['Mix kolorów', 'Białe', 'Czarne', 'Szare', 'Kolorowe', 'Inne'];
-
-let rowCount = 0;
-
-function createProductRow() {
-  rowCount++;
-  const li = document.createElement('div');
-  li.className = 'product-row';
-  li.dataset.row = rowCount;
-  li.innerHTML = `
-    <div class="product-row-num">Produkt ${rowCount}</div>
-    <div class="form-group">
-      <label class="form-label">Rodzaj</label>
-      <select class="form-select">
-        ${PRODUCT_NAMES.map(n => `<option>${n}</option>`).join('')}
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Rozmiar</label>
-      <select class="form-select">
-        ${SIZES.map(s => `<option>${s}</option>`).join('')}
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Kolor</label>
-      <select class="form-select">
-        ${COLORS.map(c => `<option>${c}</option>`).join('')}
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Ilość (par)</label>
-      <input class="form-input" type="number" min="1" value="1" style="width:80px;">
-    </div>
-    ${rowCount > 1 ? `<button class="remove-row" title="Usuń">✕</button>` : '<div></div>'}
-  `;
-  if (rowCount > 1) {
-    li.querySelector('.remove-row').addEventListener('click', () => {
-      li.remove();
-      renumberRows();
-    });
-  }
-  return li;
-}
-
-function renumberRows() {
-  document.querySelectorAll('.product-row').forEach((row, i) => {
-    const num = row.querySelector('.product-row-num');
-    if (num) num.textContent = `Produkt ${i + 1}`;
-  });
-}
-
-document.getElementById('productsList').appendChild(createProductRow());
-document.getElementById('addRowBtn').addEventListener('click', () => {
-  document.getElementById('productsList').appendChild(createProductRow());
-});
-
-document.getElementById('submitBtn').addEventListener('click', async () => {
-  const name    = document.getElementById('name').value.trim();
-  const phone   = document.getElementById('phone').value.trim();
-  const email   = document.getElementById('email').value.trim();
-  const company = document.getElementById('company').value.trim();
-  const address = document.getElementById('address').value.trim();
-  const notes   = document.getElementById('notes').value.trim();
-
-  if (!name || !phone || !email) {
-    alert('Proszę wypełnić wymagane pola: imię, telefon, e-mail.');
-    return;
-  }
-
-  // Zbierz produkty
-  const products = [];
-  document.querySelectorAll('.product-row').forEach(row => {
-    const selects = row.querySelectorAll('select');
-    const qty     = row.querySelector('input[type="number"]');
-    if (selects.length >= 3) {
-      products.push({
-        rodzaj: selects[0].value,
-        rozmiar: selects[1].value,
-        kolor: selects[2].value,
-        ilosc: qty ? qty.value : '1'
-      });
-    }
-  });
-
-  const btn = document.getElementById('submitBtn');
-  const label = document.getElementById('submitLabel');
-  btn.disabled = true;
-  label.textContent = 'Wysyłanie...';
-
-  // Wyślij przez Formspree (zastąp YOUR_FORM_ID swoim ID)
-  const FORMSPREE_ID = 'YOUR_FORM_ID'; // ← wstaw swoje ID z formspree.io
-  const payload = {
-    name, phone, email, company, address, notes,
-    zamowienie: products.map((p, i) =>
-      `#${i+1}: ${p.rodzaj} | rozmiar ${p.rozmiar} | ${p.kolor} | ${p.ilosc} par`
-    ).join('\n')
-  };
-
-  try {
-    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (res.ok) {
-      document.getElementById('order-form-wrap').style.display = 'none';
-      document.getElementById('orderSuccess').classList.add('show');
-    } else {
-      throw new Error('server');
-    }
-  } catch {
-    // Fallback: otwórz klienta mailowego z gotową treścią
-    const body = encodeURIComponent(
-      `Nowe zamówienie od: ${name}\nTelefon: ${phone}\nEmail: ${email}${company ? '\nFirma: '+company : ''}${address ? '\nAdres: '+address : ''}\n\nZamówienie:\n${payload.zamowienie}${notes ? '\n\nUwagi: '+notes : ''}`
-    );
-    window.location.href = `mailto:relaxskarpety@interia.pl?subject=Zamówienie%20od%20${encodeURIComponent(name)}&body=${body}`;
-    btn.disabled = false;
-    label.textContent = 'Wyślij zamówienie →';
-  }
-});
-
-/* ─── EMAIL COPY ─── */
+// Email copy
 const emailEl  = document.getElementById('email-copy');
 const copyHint = document.getElementById('copy-hint');
 emailEl.addEventListener('click', () => {
@@ -866,7 +360,7 @@ emailEl.addEventListener('click', () => {
   });
 });
 
-/* ─── FADE IN ─── */
+// Fade in
 const io = new IntersectionObserver(
   entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
   { threshold: 0.12 }
