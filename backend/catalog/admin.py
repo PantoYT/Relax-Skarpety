@@ -55,6 +55,18 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("display_name",), "product_key": ("working_name",)}
     filter_horizontal = ("tags",)
     inlines = (VariantInline, ProductImageInline)
+    fieldsets = (
+        ("Produkt", {"fields": (
+            "product_key", "working_name", "display_name", "slug", "category", "audience",
+            "description", "materials", "care_instructions", "country_of_origin", "tags",
+        )}),
+        ("Producent i bezpieczeństwo", {"fields": (
+            "source_type", "manufacturer", "manufacturer_address", "manufacturer_email",
+            "responsible_person", "responsible_person_address", "responsible_person_email",
+            "safety_information",
+        )}),
+        ("Publikacja", {"fields": ("status", "published")}),
+    )
 
     def get_urls(self):
         return [

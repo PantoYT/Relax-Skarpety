@@ -1,6 +1,9 @@
 const header = document.querySelector("[data-header]");
 const menuButton = document.querySelector("[data-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
+const mapLoadButton = document.querySelector("[data-map-load]");
+const mapConsent = document.querySelector("[data-map-consent]");
+const mapTemplate = document.querySelector("[data-map-template]");
 
 const setHeaderState = () => {
   header?.classList.toggle("scrolled", window.scrollY > 24);
@@ -335,6 +338,19 @@ function renderProductDetail(product) {
   const tags = (product.tags || []).map((tag) => `<li>${escapeHtml(tag)}</li>`).join("");
   const sourceLabel = product.source === "RELAX" ? "Wyprodukowano przez Relax" : "Starannie wybrane do naszej oferty";
   const hasProductPhoto = Boolean(realImages.length);
+  const manufacturer = product.manufacturer || {};
+  const responsiblePerson = product.responsible_person || {};
+  const productFacts = [
+    ["Skład", product.materials],
+    ["Pielęgnacja", product.care_instructions],
+    ["Kraj pochodzenia", product.country_of_origin],
+    ["Producent", [manufacturer.name, manufacturer.address, manufacturer.email].filter(Boolean).join(" · ")],
+    ["Podmiot odpowiedzialny w UE", [responsiblePerson.name, responsiblePerson.address, responsiblePerson.email].filter(Boolean).join(" · ")],
+    ["Bezpieczeństwo", product.safety_information],
+  ].filter(([, value]) => value);
+  const productFactsHtml = productFacts.length
+    ? `<dl class="product-detail-facts">${productFacts.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}</dl>`
+    : "";
 
   productDetail.dataset.productId = product.id;
   productDetail.innerHTML = `
@@ -352,7 +368,7 @@ function renderProductDetail(product) {
       <p class="product-detail-kicker">${escapeHtml(categoryLabels[product.category] || "Produkt")} · ${escapeHtml(sourceLabel)}</p>
       <h2 id="product-dialog-title">${escapeHtml(product.name)}</h2>
       <p class="product-detail-description">${escapeHtml(product.description || "Szczegóły produktu uzupełnimy wkrótce.")}</p>
-      ${product.materials ? `<dl class="product-detail-facts"><div><dt>Skład</dt><dd>${escapeHtml(product.materials)}</dd></div></dl>` : ""}
+      ${productFactsHtml}
       ${tags ? `<ul class="product-tags" aria-label="Cechy produktu">${tags}</ul>` : ""}
       <div class="product-detail-buy">
         <label for="detail-variant">Wybierz rozmiar i wariant</label>
@@ -730,6 +746,11 @@ checkoutDialog?.addEventListener("click", (event) => {
   if (event.target === checkoutDialog) closeCheckout();
 });
 document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeCart(); });
+mapLoadButton?.addEventListener("click", () => {
+  if (!mapTemplate || !mapConsent) return;
+  mapConsent.replaceWith(mapTemplate.content.cloneNode(true));
+  mapTemplate.remove();
+});
 renderCart();
 
 async function loadCatalog() {

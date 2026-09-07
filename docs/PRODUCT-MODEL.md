@@ -41,10 +41,15 @@ erDiagram
 | `slug` | Adres produktu generowany z nazwy, np. `/produkt/flamingi`. |
 | `category` | Skarpety, stopki, rajstopy lub później inna kategoria. |
 | `source_type` | `RELAX` dla własnej produkcji albo `EXTERNAL` dla towaru kupowanego. |
-| `manufacturer` | Producent; opcjonalny dla produktów Relax, wymagany docelowo dla obcych. |
+| `manufacturer` | Pełna nazwa producenta. |
+| `manufacturer_address`, `manufacturer_email` | Dane kontaktowe producenta widoczne w ofercie. |
+| `responsible_person*` | Nazwa, adres i e-mail podmiotu odpowiedzialnego w UE, gdy ma zastosowanie. |
+| `country_of_origin` | Kraj pochodzenia potwierdzony dla danego produktu. |
 | `audience` | Dzieci, dorośli, uniwersalne. |
 | `description` | Opis dla klienta. Może pozostać pusty podczas pierwszego spisu. |
-| `materials` | Lista materiałów; dokładne procenty można uzupełnić później. |
+| `materials` | Dokładny skład surowcowy widoczny przed zakupem. |
+| `care_instructions` | Sposób prania i pielęgnacji. |
+| `safety_information` | Wymagane informacje lub ostrzeżenia dotyczące bezpieczeństwa. |
 | `status` | `DRAFT`, `ACTIVE`, `ARCHIVED`. |
 | `published` | Czy produkt jest widoczny dla klientów. |
 
@@ -144,4 +149,3 @@ Te braki nie blokują budowy katalogu, ale trzeba je potwierdzić przed przyjęc
 - przewoźnicy, koszt dostawy i próg darmowej dostawy,
 - operator płatności obsługujący BLIK,
 - pełne dane firmy wymagane na stronie i dokumentach sprzedaży.
-

@@ -72,9 +72,17 @@ class Product(TimestampedModel):
     category = models.CharField("kategoria", max_length=20, choices=Category.choices)
     source_type = models.CharField("pochodzenie", max_length=20, choices=SourceType.choices)
     manufacturer = models.CharField("producent", max_length=160, blank=True)
+    manufacturer_address = models.TextField("adres producenta", blank=True)
+    manufacturer_email = models.EmailField("e-mail producenta", blank=True)
+    responsible_person = models.CharField("podmiot odpowiedzialny w UE", max_length=180, blank=True)
+    responsible_person_address = models.TextField("adres podmiotu odpowiedzialnego w UE", blank=True)
+    responsible_person_email = models.EmailField("e-mail podmiotu odpowiedzialnego w UE", blank=True)
+    country_of_origin = models.CharField("kraj pochodzenia", max_length=120, blank=True)
     audience = models.CharField("grupa", max_length=20, choices=Audience.choices, default=Audience.UNIVERSAL)
     description = models.TextField("opis", blank=True)
-    materials = models.CharField("materiały", max_length=300, blank=True)
+    materials = models.CharField("skład surowcowy", max_length=300, blank=True)
+    care_instructions = models.TextField("pielęgnacja", blank=True)
+    safety_information = models.TextField("informacje i ostrzeżenia dotyczące bezpieczeństwa", blank=True)
     status = models.CharField("status", max_length=20, choices=Status.choices, default=Status.DRAFT)
     published = models.BooleanField("opublikowany", default=False)
     tags = models.ManyToManyField(Tag, blank=True, related_name="products", verbose_name="tagi")
@@ -248,4 +256,3 @@ class PromotionSuggestion(TimestampedModel):
 
     def __str__(self):
         return f"{self.product}: {self.suggested_price_gross} zł ({self.get_status_display()})"
-

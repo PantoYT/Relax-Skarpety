@@ -23,6 +23,11 @@ def catalog_csv(**overrides):
         "color_name": "śliwkowy",
         "pattern_name": "fale",
         "materials": "bawełna, poliamid, elastan",
+        "manufacturer": "Relax",
+        "manufacturer_address": "Tomaszów Lubelski, Polska",
+        "manufacturer_email": "relax@example.test",
+        "country_of_origin": "Polska",
+        "care_instructions": "Prać w 30°C.",
         "price_tier": "Próg 2",
         "stock_online": "12",
         "low_stock_threshold": "3",
@@ -52,6 +57,9 @@ class CatalogImporterTests(TestCase):
         balance = InventoryBalance.objects.get(variant__product__product_key="nowy-wzor")
         self.assertEqual(balance.on_hand, 12)
         self.assertEqual(StockMovement.objects.count(), 1)
+        product = Product.objects.get()
+        self.assertEqual(product.country_of_origin, "Polska")
+        self.assertEqual(product.manufacturer_email, "relax@example.test")
 
         second = apply_catalog_import(parse_catalog_csv(catalog_csv()))
         self.assertEqual(second.products_created, 0)
@@ -69,6 +77,10 @@ class CatalogImporterTests(TestCase):
         with self.assertRaises(ValidationError):
             apply_catalog_import(preview)
         self.assertEqual(Product.objects.count(), 0)
+
+    def test_invalid_manufacturer_email_blocks_import(self):
+        preview = parse_catalog_csv(catalog_csv(manufacturer_email="to nie jest e-mail"))
+        self.assertTrue(any("manufacturer_email" in error for error in preview.errors))
 
     def test_admin_requires_preview_before_import(self):
         user = get_user_model().objects.create_superuser("importer", "importer@example.test", "safe-test-password")

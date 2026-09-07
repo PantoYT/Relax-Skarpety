@@ -15,6 +15,9 @@ class CatalogTests(TestCase):
         self.product = Product.objects.create(
             product_key="flamingi", working_name="Flamingi", display_name="Skarpety Flamingi", slug="flamingi",
             category=Product.Category.SOCKS, source_type=Product.SourceType.RELAX,
+            manufacturer="Relax", manufacturer_address="Tomaszów Lubelski, Polska",
+            manufacturer_email="relax@example.test", country_of_origin="Polska",
+            care_instructions="Prać w 30°C.", safety_information="Brak szczególnych ostrzeżeń.",
             status=Product.Status.ACTIVE, published=True,
         )
         self.variant = Variant.objects.create(
@@ -44,6 +47,9 @@ class CatalogTests(TestCase):
         self.assertFalse(item["variants"][0]["in_stock"])
         self.assertIsNone(item["variants"][0]["low_stock_quantity"])
         self.assertNotIn("popularity_percentage", item)
+        self.assertEqual(item["manufacturer"]["name"], "Relax")
+        self.assertEqual(item["country_of_origin"], "Polska")
+        self.assertEqual(item["care_instructions"], "Prać w 30°C.")
 
     def test_catalog_only_exposes_quantity_when_stock_is_low(self):
         self.balance.on_hand = 2

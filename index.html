@@ -300,7 +300,14 @@
         </address>
       </div>
       <div class="map-wrap reveal reveal-delay">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d635.1364904721734!2d23.420009128585807!3d50.449557298217066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4724a627021b38a1%3A0xcf8136404e17eef4!2srelax%20skarpety!5e0!3m2!1spl!2spl!4v1756070618211!5m2!1spl!2spl" title="Relax Skarpety na mapie" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="map-consent" data-map-consent>
+          <p><strong>Mapa Google jest wyłączona.</strong><br>Wczytanie mapy połączy przeglądarkę z usługą Google.</p>
+          <button class="button button-dark" type="button" data-map-load>Wczytaj mapę <span aria-hidden="true">↗</span></button>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Relax%20Skarpety%20Tomasz%C3%B3w%20Lubelski" target="_blank" rel="noopener noreferrer">Otwórz adres w Google Maps</a>
+        </div>
+        <template data-map-template>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d635.1364904721734!2d23.420009128585807!3d50.449557298217066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4724a627021b38a1%3A0xcf8136404e17eef4!2srelax%20skarpety!5e0!3m2!1spl!2spl!4v1756070618211!5m2!1spl!2spl" title="Relax Skarpety na mapie" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </template>
       </div>
     </section>
   </main>

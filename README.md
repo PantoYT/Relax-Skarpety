@@ -18,6 +18,7 @@ Następnie otwórz `http://localhost:8123`.
 - `legacy/site-2026-09-06/` — komplet poprzedniej strony, zachowany do odzyskiwania treści i materiałów.
 - `docs/DEPLOYMENT.md` — zasady przenoszenia kodu, sekretów i danych na serwer.
 - `docs/PRODUCT-MODEL.md` — model produktu, wariantów, cen, magazynu, tagów i popularności.
+- `docs/LAUNCH-READINESS.md` — aktualna lista braków przed przyjmowaniem prawdziwych płatności.
 
 ## Kierunek techniczny sklepu
 

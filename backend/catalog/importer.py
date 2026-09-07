@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from decimal import Decimal, InvalidOperation
 
 from django.core.exceptions import ValidationError
-from django.core.validators import validate_slug
+from django.core.validators import validate_email, validate_slug
 from django.db import transaction
 from django.utils.text import slugify
 
@@ -14,7 +14,10 @@ from .services import adjust_stock
 
 EXPECTED_COLUMNS = (
     "product_key", "working_name", "display_name", "category", "source_type", "manufacturer",
+    "manufacturer_address", "manufacturer_email", "responsible_person", "responsible_person_address",
+    "responsible_person_email", "country_of_origin",
     "sku", "barcode", "audience", "size_label", "color_name", "pattern_name", "materials",
+    "care_instructions", "safety_information",
     "price_tier", "price_override_gross", "vat_rate", "stock_online", "low_stock_threshold",
     "tags", "main_image", "additional_images", "published", "notes",
 )
@@ -57,6 +60,12 @@ class CatalogImportRow:
     category: str
     source_type: str
     manufacturer: str
+    manufacturer_address: str
+    manufacturer_email: str
+    responsible_person: str
+    responsible_person_address: str
+    responsible_person_email: str
+    country_of_origin: str
     sku: str
     barcode: str
     audience: str
@@ -64,6 +73,8 @@ class CatalogImportRow:
     color_name: str
     pattern_name: str
     materials: str
+    care_instructions: str
+    safety_information: str
     price_tier_name: str
     price_override_gross: Decimal | None
     vat_rate: Decimal | None
@@ -158,6 +169,16 @@ def _limited(value, label, limit, line, errors, required=False):
     return result
 
 
+def _email(value, label, line, errors):
+    result = _limited(value, label, 254, line, errors)
+    if result:
+        try:
+            validate_email(result)
+        except ValidationError:
+            errors.append(f"Wiersz {line}: pole „{label}” nie zawiera poprawnego adresu e-mail.")
+    return result
+
+
 def _tier_exists(name):
     exact = PriceTier.objects.filter(name__iexact=name, active=True)
     if exact.exists():
@@ -199,6 +220,12 @@ def parse_catalog_csv(text: str) -> CatalogImportPreview:
         category = _choice(raw.get("category", ""), CATEGORY_ALIASES, "category", line, line_errors)
         source_type = _choice(raw.get("source_type", ""), SOURCE_ALIASES, "source_type", line, line_errors)
         manufacturer = _limited(raw.get("manufacturer", ""), "manufacturer", 160, line, line_errors)
+        manufacturer_address = _limited(raw.get("manufacturer_address", ""), "manufacturer_address", 500, line, line_errors)
+        manufacturer_email = _email(raw.get("manufacturer_email", ""), "manufacturer_email", line, line_errors)
+        responsible_person = _limited(raw.get("responsible_person", ""), "responsible_person", 180, line, line_errors)
+        responsible_person_address = _limited(raw.get("responsible_person_address", ""), "responsible_person_address", 500, line, line_errors)
+        responsible_person_email = _email(raw.get("responsible_person_email", ""), "responsible_person_email", line, line_errors)
+        country_of_origin = _limited(raw.get("country_of_origin", ""), "country_of_origin", 120, line, line_errors)
         sku = _limited(raw.get("sku", ""), "sku", 80, line, line_errors)
         barcode = _limited(raw.get("barcode", ""), "barcode", 80, line, line_errors)
         audience = _choice(raw.get("audience", ""), AUDIENCE_ALIASES, "audience", line, line_errors)
@@ -206,6 +233,8 @@ def parse_catalog_csv(text: str) -> CatalogImportPreview:
         color_name = _limited(raw.get("color_name", ""), "color_name", 100, line, line_errors, True)
         pattern_name = _limited(raw.get("pattern_name", ""), "pattern_name", 120, line, line_errors)
         materials = _limited(raw.get("materials", ""), "materials", 300, line, line_errors)
+        care_instructions = _limited(raw.get("care_instructions", ""), "care_instructions", 1000, line, line_errors)
+        safety_information = _limited(raw.get("safety_information", ""), "safety_information", 2000, line, line_errors)
         price_tier_name = _limited(raw.get("price_tier", ""), "price_tier", 80, line, line_errors, True)
         if price_tier_name and not _tier_exists(price_tier_name):
             line_errors.append(f"Wiersz {line}: próg cenowy „{price_tier_name}” nie istnieje lub jest nieaktywny.")
@@ -248,7 +277,11 @@ def parse_catalog_csv(text: str) -> CatalogImportPreview:
             ):
                 line_errors.append(f"Wiersz {line}: kod kreskowy „{barcode}” należy już do innego wariantu.")
 
-        signature = (working_name, display_name, category, source_type, manufacturer, audience, materials, published)
+        signature = (
+            working_name, display_name, category, source_type, manufacturer, manufacturer_address,
+            manufacturer_email, responsible_person, responsible_person_address, responsible_person_email,
+            country_of_origin, audience, materials, care_instructions, safety_information, published,
+        )
         previous_signature = product_values.setdefault(product_key, signature)
         if previous_signature != signature:
             line_errors.append(f"Wiersz {line}: dane produktu „{product_key}” różnią się między wariantami.")
@@ -260,9 +293,14 @@ def parse_catalog_csv(text: str) -> CatalogImportPreview:
             preview.warnings.append(f"Wiersz {line}: nazwy zdjęć zapisano do podglądu; same pliki wgraj po imporcie w produkcie.")
         preview.rows.append(CatalogImportRow(
             line=line, product_key=product_key, working_name=working_name, display_name=display_name,
-            category=category, source_type=source_type, manufacturer=manufacturer, sku=sku, barcode=barcode,
+            category=category, source_type=source_type, manufacturer=manufacturer,
+            manufacturer_address=manufacturer_address, manufacturer_email=manufacturer_email,
+            responsible_person=responsible_person, responsible_person_address=responsible_person_address,
+            responsible_person_email=responsible_person_email, country_of_origin=country_of_origin,
+            sku=sku, barcode=barcode,
             audience=audience, size_label=size_label, color_name=color_name, pattern_name=pattern_name,
-            materials=materials, price_tier_name=price_tier_name, price_override_gross=price_override,
+            materials=materials, care_instructions=care_instructions, safety_information=safety_information,
+            price_tier_name=price_tier_name, price_override_gross=price_override,
             vat_rate=vat_rate, stock_online=stock, low_stock_threshold=threshold, tags=tags,
             main_image=main_image, additional_images=additional_images, published=published, notes=notes,
         ))
@@ -324,8 +362,16 @@ def apply_catalog_import(preview: CatalogImportPreview, user=None) -> CatalogImp
         product.category = row.category
         product.source_type = row.source_type
         product.manufacturer = row.manufacturer
+        product.manufacturer_address = row.manufacturer_address
+        product.manufacturer_email = row.manufacturer_email
+        product.responsible_person = row.responsible_person
+        product.responsible_person_address = row.responsible_person_address
+        product.responsible_person_email = row.responsible_person_email
+        product.country_of_origin = row.country_of_origin
         product.audience = row.audience
         product.materials = row.materials
+        product.care_instructions = row.care_instructions
+        product.safety_information = row.safety_information
         product.status = Product.Status.ACTIVE if row.published else Product.Status.DRAFT
         product.published = row.published
         product.save()
