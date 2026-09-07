@@ -1,371 +1,425 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="TSP7MWj75XGU5eLMUehEuxETIdaj9AF4-_jXNBd8kJw" />
-<title>Relax Skarpety — Tomaszów Lubelski</title>
-<link rel="icon" type="image/png" href="icons/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-<style>
-@font-face {
-  font-family: 'Brush 445';
-  src: url('fonts/brush-445.woff2') format('woff2'),
-       url('fonts/brush-445.woff') format('woff');
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --cream:    #f7f3ed;
-  --cream-2:  #ede8df;
-  --cream-3:  #e2dbd0;
-  --ink:      #1a1714;
-  --ink-2:    #2e2a26;
-  --ink-soft: rgba(26,23,20,0.55);
-  --ink-dim:  rgba(26,23,20,0.28);
-  --rust:     #c0392b;
-  --font-display: 'Brush 445', cursive;
-  --font-serif:   'Cormorant Garamond', serif;
-  --font-body:    'DM Sans', sans-serif;
-}
-
-html { scroll-behavior: smooth; }
-body { background: var(--cream); color: var(--ink); font-family: var(--font-body); overflow-x: hidden; }
-
-/* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 48px;
-  background: rgba(247,243,237,0.92);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--cream-3);
-}
-.nav-brand { font-family: var(--font-display); font-size: 32px; color: var(--ink); text-decoration: none; line-height: 1; }
-.nav-links { display: flex; gap: 28px; list-style: none; }
-.nav-links a { font-size: 13px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 0.15s; }
-.nav-links a:hover { color: var(--ink); }
-.nav-contact { font-size: 13px; font-weight: 500; color: var(--ink); text-decoration: none; padding: 8px 20px; border: 1px solid var(--ink); border-radius: 3px; transition: background 0.15s, color 0.15s; }
-.nav-contact:hover { background: var(--ink); color: var(--cream); }
-
-/* ── HERO ── */
-.hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 100px 48px 80px;
-  text-align: center;
-  border-bottom: 1px solid var(--cream-3);
-}
-.hero-rule { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
-.hero-rule span { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-dim); }
-.hero-rule::before, .hero-rule::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: var(--cream-3); }
-.hero h1 { font-family: var(--font-display); font-size: clamp(100px, 18vw, 220px); line-height: 0.88; color: var(--ink); margin-bottom: 12px; }
-.hero-tagline { font-family: var(--font-serif); font-size: clamp(18px, 2.5vw, 28px); font-weight: 300; font-style: italic; color: var(--ink-soft); letter-spacing: 0.04em; margin-bottom: 40px; }
-.hero-badges { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
-.badge { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 16px; border: 1px solid var(--cream-3); border-radius: 2px; color: var(--ink-soft); font-weight: 500; }
-.hero-cta { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; padding: 14px 36px; background: var(--ink); color: var(--cream); text-decoration: none; border-radius: 3px; transition: background 0.15s; }
-.hero-cta:hover { background: var(--ink-2); }
-
-/* ── GALLERY ── */
-.gallery { padding: 80px 0 100px; overflow: hidden; background: var(--cream-2); border-bottom: 1px solid var(--cream-3); }
-.gallery-header { padding: 0 48px; margin-bottom: 48px; }
-.section-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rust); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-.section-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--rust); }
-.section-title { font-family: var(--font-serif); font-size: clamp(28px, 4vw, 44px); font-weight: 300; color: var(--ink); line-height: 1.15; }
-.section-title em { font-style: italic; }
-
-.carousel-wrap { position: relative; }
-.carousel-track-outer { overflow: hidden; position: relative; }
-.carousel-track-outer::before,
-.carousel-track-outer::after { content: ''; position: absolute; top: 0; height: 100%; width: 60px; z-index: 10; pointer-events: none; }
-.carousel-track-outer::before { left: 0; background: linear-gradient(to right, var(--cream-2), transparent); }
-.carousel-track-outer::after  { right: 0; background: linear-gradient(to left, var(--cream-2), transparent); }
-
-.carousel-track { display: flex; gap: 12px; list-style: none; padding: 0 48px; transition: transform 0.6s cubic-bezier(0.65,0,0.35,1); }
-.carousel-slide { flex: 0 0 calc(20% - 10px); }
-.carousel-slide img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; border-radius: 4px; filter: sepia(8%); transition: filter 0.3s, transform 0.3s; }
-.carousel-slide img:hover { filter: sepia(0%); transform: scale(1.02); }
-
-.carousel-controls { display: flex; justify-content: center; gap: 12px; margin-top: 32px; }
-.c-btn { width: 44px; height: 44px; border: 1px solid var(--cream-3); background: var(--cream); border-radius: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--ink-soft); transition: border-color 0.15s, color 0.15s; }
-.c-btn:hover { border-color: var(--ink); color: var(--ink); }
-
-/* ── SOCIALS ── */
-.socials-section { padding: 64px 48px; display: flex; flex-direction: column; align-items: center; gap: 32px; border-bottom: 1px solid var(--cream-3); }
-.socials-title { font-family: var(--font-serif); font-size: 20px; font-weight: 300; font-style: italic; color: var(--ink-soft); }
-.socials-links { display: flex; gap: 48px; align-items: center; }
-.social-link { display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; transition: transform 0.2s; }
-.social-link:hover { transform: translateY(-3px); }
-.social-link img { width: 36px; height: 36px; opacity: 0.65; transition: opacity 0.2s; }
-.social-link:hover img { opacity: 1; }
-.social-link span { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); font-weight: 500; }
-.social-update { font-family: var(--font-serif); font-size: 16px; font-style: italic; color: var(--ink-soft); }
-.social-update a { color: #1877F2; text-decoration: none; }
-.social-update a:hover { text-decoration: underline; }
-
-/* ── ABOUT ── */
-.about { padding: 100px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; border-bottom: 1px solid var(--cream-3); }
-.about-text-block { display: flex; flex-direction: column; gap: 24px; }
-.about-body { font-family: var(--font-serif); font-size: 19px; font-weight: 300; line-height: 1.75; color: var(--ink-soft); }
-.about-body strong { font-weight: 600; color: var(--ink); }
-.about-aside { background: var(--cream-2); border: 1px solid var(--cream-3); border-radius: 6px; padding: 48px; display: flex; flex-direction: column; gap: 32px; }
-.aside-stat-num { font-family: var(--font-serif); font-size: 48px; font-weight: 300; color: var(--ink); line-height: 1; letter-spacing: -0.02em; }
-.aside-stat-label { font-size: 12px; font-weight: 500; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; margin-top: 4px; }
-.aside-divider { height: 1px; background: var(--cream-3); }
-
-/* ── MAP ── */
-.map-section { border-bottom: 1px solid var(--cream-3); }
-.map-header { padding: 64px 48px 40px; }
-.map-iframe-wrap { width: 100%; height: 450px; }
-.map-iframe-wrap iframe { width: 100%; height: 100%; border: 0; filter: sepia(12%) contrast(1.04); display: block; }
-
-/* ── FOOTER (contains contact + copyright) ── */
-footer {
-  background: var(--ink);
-  color: var(--cream);
-}
-.footer-contact {
-  padding: 56px 48px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-.footer-cell { padding: 0 40px; border-right: 1px solid rgba(255,255,255,0.07); }
-.footer-cell:first-child { padding-left: 0; }
-.footer-cell:last-child { border-right: none; }
-.footer-cell-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(247,243,237,0.3); font-weight: 500; margin-bottom: 8px; }
-.footer-cell-value { font-family: var(--font-serif); font-size: 20px; font-weight: 300; color: var(--cream); text-decoration: none; display: block; transition: color 0.15s; cursor: pointer; }
-.footer-cell-value:hover { color: rgba(247,243,237,0.75); }
-.copy-hint { font-size: 11px; color: rgba(247,243,237,0.28); margin-top: 4px; }
-
-.footer-bottom {
-  padding: 20px 48px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--ink-2);
-}
-.footer-brand { font-family: var(--font-display); font-size: 26px; color: var(--cream); opacity: 0.6; }
-.footer-copy { font-size: 12px; color: rgba(247,243,237,0.28); }
-
-/* ── FADE ── */
-@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-.fade { opacity: 0; }
-.fade.in { animation: fadeUp 0.5s ease forwards; }
-.fade-d1 { animation-delay: 0.1s; }
-.fade-d2 { animation-delay: 0.2s; }
-.fade-d3 { animation-delay: 0.3s; }
-
-/* ── MOBILE ── */
-@media (max-width: 768px) {
-  nav { padding: 14px 20px; }
-  .nav-links { display: none; }
-  .hero { padding: 80px 20px 56px; }
-  .hero h1 { font-size: clamp(72px, 22vw, 130px); }
-  .gallery-header { padding: 0 20px; }
-  .carousel-track { padding: 0 20px; }
-  .carousel-slide { flex: 0 0 68%; }
-  .socials-section { padding: 48px 20px; }
-  .about { grid-template-columns: 1fr; gap: 40px; padding: 60px 20px; }
-  .map-header { padding: 48px 20px 28px; }
-  .footer-contact { grid-template-columns: 1fr; padding: 40px 20px; gap: 0; }
-  .footer-cell { padding: 0 0 24px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 24px; }
-  .footer-cell:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-  .footer-bottom { flex-direction: column; gap: 6px; text-align: center; padding: 16px 20px; }
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f0e7">
+  <meta name="description" content="Polskie skarpety Relax z Tomaszowa Lubelskiego. Kolorowe wzory, lokalna produkcja i ponad 30 lat doświadczenia.">
+  <meta name="google-site-verification" content="TSP7MWj75XGU5eLMUehEuxETIdaj9AF4-_jXNBd8kJw">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:title" content="Relax — skarpety produkowane w Polsce od 1992 roku">
+  <meta property="og:description" content="Kolorowe skarpety z Tomaszowa Lubelskiego. Poznaj markę Relax i nasze wzory.">
+  <meta property="og:url" content="https://relax-skarpety.com/">
+  <meta property="og:image" content="https://relax-skarpety.com/assets/products/img4.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="canonical" href="https://relax-skarpety.com/">
+  <link rel="icon" type="image/png" href="assets/icons/favicon.png">
+  <link rel="preload" href="assets/fonts/brush-445.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <title>Polskie skarpety od 1992 roku — Relax</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Relax Skarpety",
+    "url": "https://relax-skarpety.com/",
+    "telephone": "+48604868085",
+    "email": "relaxskarpety@interia.pl",
+    "foundingDate": "1992",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Tomaszów Lubelski",
+      "addressCountry": "PL"
+    },
+    "sameAs": [
+      "https://www.facebook.com/RelaxSkarpety",
+      "https://www.instagram.com/relax.skarpety/"
+    ]
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Przejdź do treści</a>
 
-<nav>
-  <a href="#" class="nav-brand">Relax</a>
-  <ul class="nav-links">
-    <li><a href="#kolekcja">Kolekcja</a></li>
-    <li><a href="#o-nas">O nas</a></li>
-    <li><a href="#kontakt">Kontakt</a></li>
-  </ul>
-  <a href="tel:+48604868085" class="nav-contact">+48 604 868 085</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-rule fade"><span>Od 1992 roku</span></div>
-  <h1 class="fade fade-d1">Relax</h1>
-  <p class="hero-tagline fade fade-d2">Producent skarpet i rajstop</p>
-  <div class="hero-badges fade fade-d3">
-    <span class="badge">Tomaszów Lubelski</span>
-    <span class="badge">Produkcja polska</span>
-    <span class="badge">Hurt i detal</span>
+  <div class="announcement" role="status">
+    <span>Polska produkcja</span>
+    <i aria-hidden="true"></i>
+    <span>Tomaszów Lubelski</span>
+    <i aria-hidden="true"></i>
+    <span>Od 1992 roku</span>
   </div>
-  <a href="#kolekcja" class="hero-cta fade fade-d3">Zobacz kolekcję ↓</a>
-</section>
 
-<!-- GALLERY -->
-<section class="gallery" id="kolekcja">
-  <div class="gallery-header">
-    <div class="section-eyebrow">Kolekcja</div>
-    <h2 class="section-title">Nasze <em>wyroby</em></h2>
-  </div>
-  <div class="carousel-wrap">
-    <div class="carousel-track-outer">
-      <ul class="carousel-track" id="track">
-        <li class="carousel-slide"><img src="images/img1.jpg" alt="Skarpety Relax"></li>
-        <li class="carousel-slide"><img src="images/img2.jpg" alt="Skarpety Relax"></li>
-        <li class="carousel-slide"><img src="images/img3.jpg" alt="Skarpety Relax"></li>
-        <li class="carousel-slide"><img src="images/img4.jpg" alt="Skarpety Relax"></li>
-        <li class="carousel-slide"><img src="images/img5.jpg" alt="Skarpety Relax"></li>
-        <li class="carousel-slide"><img src="images/img6.jpg" alt="Skarpety Relax"></li>
-        <li class="carousel-slide"><img src="images/img7.jpg" alt="Skarpety Relax"></li>
-        <li class="carousel-slide"><img src="images/img8.jpg" alt="Skarpety Relax"></li>
-        <li class="carousel-slide"><img src="images/img9.jpg" alt="Skarpety Relax"></li>
-        <li class="carousel-slide"><img src="images/img10.jpg" alt="Skarpety Relax"></li>
-      </ul>
+  <header class="site-header" data-header>
+    <a class="wordmark" href="#top" aria-label="Relax — strona główna">Relax</a>
+
+    <nav class="desktop-nav" aria-label="Główna nawigacja">
+      <a href="#kolekcje">Kolekcje</a>
+      <a href="#produkty">Nasze wzory</a>
+      <a href="#o-nas">O nas</a>
+      <a href="#hurt">Dla sklepów</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="contact-link" href="#kontakt">Kontakt</a>
+      <button class="cart-trigger" type="button" data-cart-open aria-controls="cart-drawer" aria-expanded="false">
+        Koszyk <span data-cart-count>0</span>
+      </button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span></span><span></span>
+        <span class="sr-only">Otwórz menu</span>
+      </button>
     </div>
-    <div class="carousel-controls">
-      <button class="c-btn" id="prev" aria-label="Poprzedni">←</button>
-      <button class="c-btn" id="next" aria-label="Następny">→</button>
+
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Menu mobilne" data-mobile-menu>
+      <a href="#kolekcje">Kolekcje</a>
+      <a href="#produkty">Nasze wzory</a>
+      <a href="#o-nas">O nas</a>
+      <a href="#hurt">Dla sklepów</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Kolor zaczyna się od stóp</p>
+        <h1>Skarpety, które<br><em>mają charakter.</em></h1>
+        <p class="hero-lead">Projektujemy i produkujemy je w Tomaszowie Lubelskim już od 1992 roku. Miękkie, trwałe i zdecydowanie nie nudne.</p>
+        <div class="hero-actions">
+          <a class="button button-dark" href="#produkty">Zobacz nasze wzory <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#o-nas">Poznaj Relax <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+
+      <div class="hero-stage" aria-label="Kolorowe skarpety Relax">
+        <div class="hero-shape hero-shape-one"></div>
+        <div class="hero-shape hero-shape-two"></div>
+        <img class="hero-sock hero-sock-main" src="assets/products/img4.webp" alt="Turkusowe skarpety Relax we flamingi" width="1200" height="1600" fetchpriority="high">
+        <img class="hero-sock hero-sock-small" src="assets/products/img8.webp" alt="Czarno-białe stopki Relax w szachownicę" width="1200" height="1600">
+        <p class="hero-note">Nasza produkcja<br><strong>Made in Poland</strong></p>
+      </div>
+
+      <a class="scroll-cue" href="#kolekcje" aria-label="Przewiń do kolekcji">
+        <span>Przewiń</span><i aria-hidden="true"></i>
+      </a>
+    </section>
+
+    <section class="marquee" aria-label="Cechy produktów">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span>Kolorowe wzory</span><b>✦</b><span>Polska produkcja</span><b>✦</b><span>Na co dzień</span><b>✦</b><span>Dla małych i dużych</span><b>✦</b><span>Od 1992 roku</span><b>✦</b><span>Tomaszów Lubelski</span><b>✦</b><span>Miękkie i trwałe</span><b>✦</b>
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+          <span>Kolorowe wzory</span><b>✦</b><span>Polska produkcja</span><b>✦</b><span>Na co dzień</span><b>✦</b><span>Dla małych i dużych</span><b>✦</b><span>Od 1992 roku</span><b>✦</b><span>Tomaszów Lubelski</span><b>✦</b><span>Miękkie i trwałe</span><b>✦</b>
+        </div>
+      </div>
+    </section>
+
+    <section class="section collections" id="kolekcje">
+      <div class="section-heading reveal">
+        <div>
+          <p class="eyebrow">Znajdź coś dla siebie</p>
+          <h2>Wybierz swój <em>kierunek.</em></h2>
+        </div>
+        <div class="collection-heading-aside">
+          <p>Od klasycznych modeli po skarpety, które robią cały strój. Wybierz kierunek, a katalog ustawi właściwy filtr.</p>
+          <div class="collection-controls" aria-label="Przewijanie kolekcji">
+            <button type="button" data-collections-prev aria-label="Poprzednie kolekcje">←</button>
+            <button type="button" data-collections-next aria-label="Następne kolekcje">→</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="collection-grid collection-rail" data-collection-rail>
+        <a class="collection-card reveal" href="#produkty" data-collection="colorful">
+          <img src="assets/products/img2.webp" alt="Zielone skarpety Relax w owce" width="1200" height="1600" loading="lazy">
+          <span class="collection-index">01</span>
+          <div class="collection-caption">
+            <span>Pełne charakteru</span>
+            <h3>Kolorowe</h3>
+          </div>
+          <span class="round-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="collection-card reveal reveal-delay" href="#produkty" data-collection="footies">
+          <img src="assets/products/img9.webp" alt="Zielone stopki Relax w cytryny" width="1200" height="1600" loading="lazy">
+          <span class="collection-index">02</span>
+          <div class="collection-caption">
+            <span>Lekkie i wygodne</span>
+            <h3>Stopki</h3>
+          </div>
+          <span class="round-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="collection-card reveal" href="#produkty" data-collection="children">
+          <img src="assets/products/img3.webp" alt="Fioletowe skarpety Relax w koty" width="1200" height="1600" loading="lazy">
+          <span class="collection-index">03</span>
+          <div class="collection-caption">
+            <span>Dla małych stóp</span>
+            <h3>Dziecięce</h3>
+          </div>
+          <span class="round-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="collection-card reveal" href="#produkty" data-collection="bamboo">
+          <img src="assets/products/img6.webp" alt="Gładkie skarpety w spokojnych kolorach" width="1200" height="1600" loading="lazy">
+          <span class="collection-index">04</span>
+          <div class="collection-caption">
+            <span>Miękkie i lekkie</span>
+            <h3>Bambusowe</h3>
+          </div>
+          <span class="round-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="collection-card reveal" href="#produkty" data-collection="tights">
+          <img src="assets/products/img10.webp" alt="Klasyczne modele w ofercie Relax" width="1200" height="1600" loading="lazy">
+          <span class="collection-index">05</span>
+          <div class="collection-caption">
+            <span>Na co dzień</span>
+            <h3>Rajstopy</h3>
+          </div>
+          <span class="round-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="collection-card reveal" href="#produkty" data-collection="relax">
+          <img src="assets/products/img4.webp" alt="Kolorowe skarpety produkowane przez Relax" width="1200" height="1600" loading="lazy">
+          <span class="collection-index">06</span>
+          <div class="collection-caption">
+            <span>Z Tomaszowa Lubelskiego</span>
+            <h3>Nasza produkcja</h3>
+          </div>
+          <span class="round-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section products" id="produkty">
+      <div class="product-heading reveal">
+        <div>
+          <p class="eyebrow">Prosto z Tomaszowa</p>
+          <h2>Wzory, które <em>lubimy.</em></h2>
+        </div>
+        <p class="catalog-note">Pierwszy wybór do katalogu internetowego</p>
+      </div>
+
+      <form class="catalog-toolbar" data-catalog-filters role="search" aria-label="Filtry katalogu">
+        <label class="catalog-search">
+          <span>Szukaj</span>
+          <input type="search" data-filter-search placeholder="Nazwa, wzór lub materiał" autocomplete="off">
+        </label>
+        <label>
+          <span>Kolekcja</span>
+          <select data-filter-collection>
+            <option value="">Wszystkie</option>
+            <option value="colorful">Kolorowe</option>
+            <option value="footies">Stopki</option>
+            <option value="children">Dziecięce</option>
+            <option value="bamboo">Bambusowe</option>
+            <option value="tights">Rajstopy</option>
+            <option value="relax">Nasza produkcja</option>
+          </select>
+        </label>
+        <label>
+          <span>Kategoria</span>
+          <select data-filter-category>
+            <option value="">Wszystkie</option>
+          </select>
+        </label>
+        <label>
+          <span>Rozmiar</span>
+          <select data-filter-size>
+            <option value="">Wszystkie</option>
+          </select>
+        </label>
+        <button class="catalog-reset" type="reset" data-filter-reset>Wyczyść</button>
+        <p class="catalog-count" data-filter-count aria-live="polite">Ładujemy katalog…</p>
+      </form>
+
+      <div class="product-rail" data-product-rail aria-live="polite" aria-busy="true">
+        <div class="catalog-loading">
+          <span aria-hidden="true"></span>
+          <p>Ładujemy dostępne wzory…</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="story" id="o-nas">
+      <div class="story-art reveal" aria-hidden="true">
+        <span class="story-year">1992</span>
+        <img src="assets/products/img7-cutout.webp" alt="" width="1200" height="1600" loading="lazy">
+        <p>Wyprodukowano<br>w Tomaszowie Lubelskim</p>
+      </div>
+      <div class="story-copy reveal reveal-delay">
+        <p class="eyebrow">Nasza historia</p>
+        <h2>Robimy swoje.<br><em>Od ponad 30 lat.</em></h2>
+        <div class="story-text">
+          <p>Firma <strong>Relax</strong> z siedzibą w Tomaszowie Lubelskim zajmuje się produkcją skarpet od 1992 roku. Przez te lata wypracowaliśmy pozycję solidnej, sprawdzonej firmy, która odpowiada na potrzeby klientów i zmieniające się trendy.</p>
+          <p>Dzięki profesjonalnemu parkowi maszynowemu możemy tworzyć bogatą kolorystykę i różnorodne wzornictwo. Wysokiej jakości surowce nadają naszym wyrobom cenioną trwałość i estetykę.</p>
+        </div>
+        <div class="story-values" aria-label="Najważniejsze wartości">
+          <span><b>30+</b> lat doświadczenia</span>
+          <span><b>PL</b> lokalna produkcja</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="wholesale" id="hurt">
+      <div class="wholesale-copy reveal">
+        <p class="eyebrow eyebrow-light">Współpraca</p>
+        <h2>Prowadzisz sklep?<br><em>Porozmawiajmy.</em></h2>
+        <p>Od lat współpracujemy ze sklepami i hurtowniami w regionie. Zapytaj o dostępne wzory, rozmiary i warunki zamówienia.</p>
+        <a class="button button-light" href="mailto:relaxskarpety@interia.pl?subject=Współpraca%20hurtowa">Napisz do nas <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="wholesale-stamp reveal reveal-delay" aria-hidden="true">
+        <span>Hurt i detal</span><strong>R</strong><span>Od 1992</span>
+      </div>
+    </section>
+
+    <section class="social-section">
+      <div class="social-intro reveal">
+        <p class="eyebrow">Bądź na bieżąco</p>
+        <h2>Nowe wzory trafiają<br>najpierw <em>tutaj.</em></h2>
+      </div>
+      <div class="social-links reveal reveal-delay">
+        <a href="https://www.instagram.com/relax.skarpety/" target="_blank" rel="noopener noreferrer">
+          <span><img src="assets/icons/instagram.svg" alt="">Instagram</span><b aria-hidden="true">↗</b>
+        </a>
+        <a href="https://www.facebook.com/RelaxSkarpety?locale=pl_PL" target="_blank" rel="noopener noreferrer">
+          <span><img src="assets/icons/facebook.svg" alt="">Facebook</span><b aria-hidden="true">↗</b>
+        </a>
+      </div>
+    </section>
+
+    <section class="location" id="kontakt">
+      <div class="location-details reveal">
+        <p class="eyebrow">Kontakt</p>
+        <h2>Jesteśmy<br>w <em>Tomaszowie.</em></h2>
+        <address>
+          <a href="tel:+48604868085">+48 604 868 085</a>
+          <a href="mailto:relaxskarpety@interia.pl">relaxskarpety@interia.pl</a>
+          <span>Tomaszów Lubelski, Polska</span>
+        </address>
+      </div>
+      <div class="map-wrap reveal reveal-delay">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d635.1364904721734!2d23.420009128585807!3d50.449557298217066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4724a627021b38a1%3A0xcf8136404e17eef4!2srelax%20skarpety!5e0!3m2!1spl!2spl!4v1756070618211!5m2!1spl!2spl" title="Relax Skarpety na mapie" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a class="wordmark footer-wordmark" href="#top">Relax</a>
+        <p>Kolorowe skarpety produkowane<br>w Tomaszowie Lubelskim od 1992 roku.</p>
+        <span>Miękkie · trwałe · nasze</span>
+      </div>
+      <nav class="footer-links" aria-label="Nawigacja w stopce">
+        <div>
+          <p>Odkrywaj</p>
+          <a href="#kolekcje">Kolekcje</a>
+          <a href="#produkty">Nasze wzory</a>
+          <a href="#o-nas">O nas</a>
+          <a href="#hurt">Dla sklepów</a>
+        </div>
+        <div>
+          <p>Porozmawiajmy</p>
+          <a href="tel:+48604868085">+48 604 868 085</a>
+          <a href="mailto:relaxskarpety@interia.pl">Napisz e-mail</a>
+          <a href="https://www.facebook.com/RelaxSkarpety" target="_blank" rel="noopener noreferrer">Facebook ↗</a>
+          <a href="https://www.instagram.com/relax.skarpety/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+        </div>
+      </nav>
     </div>
-  </div>
-</section>
-
-<!-- SOCIALS -->
-<section class="socials-section">
-  <p class="socials-title">Śledź nas w mediach społecznościowych</p>
-  <div class="socials-links">
-    <a href="https://www.facebook.com/RelaxSkarpety?locale=pl_PL" target="_blank" class="social-link">
-      <img src="icons/facebook.svg" alt="Facebook">
-      <span>Facebook</span>
-    </a>
-    <a href="https://www.instagram.com/relax.skarpety/" target="_blank" class="social-link">
-      <img src="icons/instagram.svg" alt="Instagram">
-      <span>Instagram</span>
-    </a>
-  </div>
-  <p class="social-update">Najnowsze aktualizacje produktów na <a href="https://www.facebook.com/RelaxSkarpety" target="_blank">Facebooku</a></p>
-</section>
-
-<!-- ABOUT -->
-<section class="about" id="o-nas">
-  <div class="about-text-block">
-    <div class="section-eyebrow">O nas</div>
-    <h2 class="section-title">Tradycja <em>i jakość</em></h2>
-    <p class="about-body">Firma <strong>Relax</strong> z siedzibą w Tomaszowie Lubelskim zajmuje się produkcją skarpet już od 1992 roku. W przeciągu kilkudziesięciu lat wypracowaliśmy wizerunek <strong>solidnej, sprawdzonej firmy</strong> wychodzącej naprzeciw oczekiwaniom klientów i panującym trendom.</p>
-    <p class="about-body">Dzięki profesjonalnemu parkowi maszynowemu stosujemy bogatą kolorystykę oraz wzornictwo. Wysokiej jakości surowce nadają naszym wyrobom cenioną przez klienta <strong>trwałość oraz estetykę</strong>.</p>
-    <p class="about-body">Posiadamy atrakcyjne ceny zarówno dla klientów indywidualnych, sklepów oraz hurtowni. Serdecznie zapraszamy do współpracy.</p>
-  </div>
-  <div class="about-aside">
-    <div>
-      <div class="aside-stat-num">1992</div>
-      <div class="aside-stat-label">rok założenia</div>
+    <div class="footer-meta">
+      <span>© <span data-year>2026</span> Relax Skarpety</span>
+      <span>Produkujemy lokalnie w Polsce</span>
+      <a href="#top">Do góry ↑</a>
     </div>
-    <div class="aside-divider"></div>
-    <div>
-      <div class="aside-stat-num">30+</div>
-      <div class="aside-stat-label">lat doświadczenia</div>
+  </footer>
+
+  <dialog class="product-dialog" data-product-dialog aria-labelledby="product-dialog-title">
+    <button class="product-dialog-close" type="button" data-product-close aria-label="Zamknij szczegóły produktu">×</button>
+    <div class="product-detail" data-product-detail></div>
+  </dialog>
+
+  <button class="cart-backdrop" type="button" data-cart-close aria-label="Zamknij koszyk" tabindex="-1"></button>
+  <aside class="cart-drawer" id="cart-drawer" data-cart-drawer aria-hidden="true" aria-labelledby="cart-title">
+    <div class="cart-head">
+      <div>
+        <p class="eyebrow">Twój wybór</p>
+        <h2 id="cart-title">Koszyk</h2>
+      </div>
+      <button class="cart-close" type="button" data-cart-close aria-label="Zamknij koszyk">×</button>
     </div>
-    <div class="aside-divider"></div>
-    <div>
-      <div class="aside-stat-num">PL</div>
-      <div class="aside-stat-label">produkcja w Polsce</div>
+    <div class="cart-items" data-cart-items></div>
+    <div class="cart-empty" data-cart-empty>
+      <span aria-hidden="true">R</span>
+      <p>Jeszcze tu pusto.<br><em>Wybierz coś kolorowego.</em></p>
+      <button class="text-link" type="button" data-cart-close>Wróć do wzorów</button>
     </div>
-  </div>
-</section>
-
-<!-- MAP -->
-<section class="map-section" id="gdzie">
-  <div class="map-header">
-    <div class="section-eyebrow">Lokalizacja</div>
-    <h2 class="section-title">Gdzie <em>nas znaleźć</em></h2>
-  </div>
-  <div class="map-iframe-wrap">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d635.1364904721734!2d23.420009128585807!3d50.449557298217066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4724a627021b38a1%3A0xcf8136404e17eef4!2srelax%20skarpety!5e0!3m2!1spl!2spl!4v1756070618211!5m2!1spl!2spl" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Relax Skarpety — mapa"></iframe>
-  </div>
-</section>
-
-<!-- FOOTER (contact + copyright w jednym bloku) -->
-<footer id="kontakt">
-  <div class="footer-contact">
-    <div class="footer-cell">
-      <div class="footer-cell-label">Telefon</div>
-      <a href="tel:+48604868085" class="footer-cell-value">+48 604 868 085</a>
+    <div class="cart-summary" data-cart-summary hidden>
+      <div><span>Produkty</span><strong data-cart-subtotal>0,00 zł</strong></div>
+      <p>Dostawę i płatność wybierzesz w następnym kroku.</p>
+      <button class="button button-dark cart-checkout" type="button" data-checkout-open disabled><span data-checkout-button-label>Ładujemy checkout…</span> <span aria-hidden="true">↗</span></button>
+      <small data-checkout-note>Sprawdzamy dostępność składania zamówień.</small>
     </div>
-    <div class="footer-cell">
-      <div class="footer-cell-label">E-mail</div>
-      <span class="footer-cell-value" id="email-copy">relaxskarpety@interia.pl</span>
-      <div class="copy-hint" id="copy-hint">kliknij aby skopiować</div>
+  </aside>
+
+  <dialog class="checkout-dialog" data-checkout-dialog aria-labelledby="checkout-title">
+    <button class="checkout-close" type="button" data-checkout-close aria-label="Zamknij formularz zamówienia">×</button>
+    <div class="checkout-layout">
+      <aside class="checkout-intro">
+        <p class="eyebrow eyebrow-light">Zamówienie testowe</p>
+        <h2 id="checkout-title">Jeszcze jeden<br><em>krok.</em></h2>
+        <p>Sprawdzamy pełny przepływ sklepu przed wyborem operatora płatności i dostawy. Zamówienie trafi do panelu, ale nie uruchomi prawdziwej płatności ani wysyłki.</p>
+        <div class="checkout-total"><span>Produkty razem</span><strong data-checkout-total>0,00 zł</strong></div>
+        <small>Dostawa testowa: 0,00 zł. Rezerwacja stanu trwa 30 minut.</small>
+      </aside>
+      <div class="checkout-content">
+        <form class="checkout-form" data-checkout-form>
+          <div class="checkout-section-heading">
+            <span>01</span>
+            <div><p>Dane kontaktowe</p><small>Pola oznaczone gwiazdką są wymagane.</small></div>
+          </div>
+          <div class="checkout-fields two-columns">
+            <label><span>Imię *</span><input name="first_name" autocomplete="given-name" maxlength="100" required></label>
+            <label><span>Nazwisko *</span><input name="last_name" autocomplete="family-name" maxlength="120" required></label>
+            <label><span>E-mail *</span><input type="email" name="email" autocomplete="email" maxlength="254" required></label>
+            <label><span>Telefon *</span><input type="tel" name="phone" autocomplete="tel" maxlength="40" required></label>
+          </div>
+
+          <div class="checkout-section-heading">
+            <span>02</span>
+            <div><p>Adres dostawy</p><small>Na razie zapisujemy go wyłącznie do testowego zamówienia.</small></div>
+          </div>
+          <div class="checkout-fields two-columns">
+            <label class="field-wide"><span>Ulica i numer *</span><input name="address_line_1" autocomplete="address-line1" maxlength="180" required></label>
+            <label><span>Kod pocztowy *</span><input name="postal_code" autocomplete="postal-code" inputmode="numeric" placeholder="00-000" pattern="[0-9]{2}-[0-9]{3}" maxlength="6" required></label>
+            <label><span>Miejscowość *</span><input name="city" autocomplete="address-level2" maxlength="120" required></label>
+            <label class="field-wide"><span>Numer mieszkania / lokalu</span><input name="apartment_number" autocomplete="off" maxlength="180" placeholder="Np. lokal 4"></label>
+          </div>
+
+          <label class="checkout-check"><input type="checkbox" name="invoice_requested" data-invoice-toggle><span>Chcę fakturę</span></label>
+          <div class="checkout-fields two-columns invoice-fields" data-invoice-fields hidden>
+            <label><span>Nazwa firmy *</span><input name="company_name" autocomplete="organization" maxlength="180"></label>
+            <label><span>NIP *</span><input name="invoice_tax_id" inputmode="numeric" autocomplete="off" maxlength="30"></label>
+          </div>
+          <label class="checkout-note-field"><span>Uwagi do zamówienia</span><textarea name="customer_note" maxlength="1000" rows="3"></textarea></label>
+          <label class="checkout-honeypot" aria-hidden="true"><span>Strona internetowa</span><input name="website" tabindex="-1" autocomplete="off"></label>
+          <label class="checkout-check checkout-confirm"><input type="checkbox" name="terms_accepted" required><span>Potwierdzam, że to zamówienie testowe i nie uruchamia ono płatności ani wysyłki.</span></label>
+          <p class="checkout-error" data-checkout-error role="alert" hidden></p>
+          <button class="button button-dark checkout-submit" type="submit"><span>Zapisz zamówienie testowe</span><span aria-hidden="true">↗</span></button>
+        </form>
+        <div class="checkout-success" data-checkout-success hidden>
+          <span aria-hidden="true">✓</span>
+          <p>Zapisaliśmy zamówienie</p>
+          <h3 data-checkout-order-number></h3>
+          <div data-checkout-success-message></div>
+          <button class="button button-dark" type="button" data-checkout-close>Zamknij <span aria-hidden="true">×</span></button>
+        </div>
+      </div>
     </div>
-    <div class="footer-cell">
-      <div class="footer-cell-label">Godziny otwarcia</div>
-      <span class="footer-cell-value" style="cursor:default; font-size:17px;">
-        Pn – Pt &nbsp;09:00 – 17:00<br>
-        Sobota &nbsp;09:00 – 14:00
-      </span>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-brand">Relax</div>
-    <div class="footer-copy">© 2026 Relax Skarpety · Tomaszów Lubelski · Wszelkie prawa zastrzeżone</div>
-  </div>
-</footer>
+  </dialog>
 
-<script>
-// Carousel
-const track = document.getElementById('track');
-let isMoving = false, autoTimer;
-
-function sw() {
-  const s = track.children[0];
-  return s.getBoundingClientRect().width + 12;
-}
-function next() {
-  if (isMoving) return; isMoving = true;
-  track.style.transition = 'transform .6s cubic-bezier(.65,0,.35,1)';
-  track.style.transform = `translateX(-${sw()}px)`;
-  track.addEventListener('transitionend', () => {
-    track.appendChild(track.firstElementChild);
-    track.style.transition = 'none';
-    track.style.transform = 'translateX(0)';
-    isMoving = false;
-  }, { once: true });
-}
-function prev() {
-  if (isMoving) return; isMoving = true;
-  track.insertBefore(track.lastElementChild, track.firstElementChild);
-  track.style.transition = 'none';
-  track.style.transform = `translateX(-${sw()}px)`;
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    track.style.transition = 'transform .6s cubic-bezier(.65,0,.35,1)';
-    track.style.transform = 'translateX(0)';
-  }));
-  track.addEventListener('transitionend', () => { isMoving = false; }, { once: true });
-}
-function startAuto() { clearInterval(autoTimer); autoTimer = setInterval(next, 3500); }
-function stopAuto()  { clearInterval(autoTimer); }
-
-document.getElementById('next').addEventListener('click', () => { next(); startAuto(); });
-document.getElementById('prev').addEventListener('click', () => { prev(); startAuto(); });
-document.querySelector('.carousel-wrap').addEventListener('mouseenter', stopAuto);
-document.querySelector('.carousel-wrap').addEventListener('mouseleave', startAuto);
-startAuto();
-
-// Email copy
-const emailEl  = document.getElementById('email-copy');
-const copyHint = document.getElementById('copy-hint');
-emailEl.addEventListener('click', () => {
-  navigator.clipboard.writeText('relaxskarpety@interia.pl').then(() => {
-    copyHint.textContent = '✓ skopiowano';
-    copyHint.style.color = 'rgba(247,243,237,0.6)';
-    setTimeout(() => { copyHint.textContent = 'kliknij aby skopiować'; copyHint.style.color = ''; }, 2500);
-  });
-});
-
-// Fade in
-const io = new IntersectionObserver(
-  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
-  { threshold: 0.12 }
-);
-document.querySelectorAll('.fade').forEach(el => io.observe(el));
-</script>
+  <script src="app.js" defer></script>
 </body>
 </html>

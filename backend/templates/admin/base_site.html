@@ -1,0 +1,20 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | Relax{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/css/relax-admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+  <a class="relax-brand" href="{% url 'admin:index' %}" aria-label="Relax — strona główna panelu">
+    <span>Relax</span>
+    <small>panel sklepu</small>
+  </a>
+{% endblock %}
+
+{% block nav-global %}
+  <a class="storefront-link" href="/" target="_blank" rel="noopener">Otwórz sklep <span aria-hidden="true">↗</span></a>
+{% endblock %}

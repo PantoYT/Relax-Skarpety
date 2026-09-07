@@ -1,0 +1,89 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: ${ENV_FILE:-.env}
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      STATIC_ROOT: /app/staticfiles
+      MEDIA_ROOT: /app/media
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py collectstatic --noinput"
+    volumes:
+      - static_data:/app/staticfiles
+      - media_data:/app/media
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: ${ENV_FILE:-.env}
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      STATIC_ROOT: /app/staticfiles
+      MEDIA_ROOT: /app/media
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - static_data:/app/staticfiles
+      - media_data:/app/media
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: ${ENV_FILE:-.env}
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    command: >
+      sh -c "while true; do
+             python manage.py release_expired_reservations;
+             sleep 60;
+             done"
+
+  web:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+    volumes:
+      - static_data:/static:ro
+      - media_data:/media:ro
+
+volumes:
+  postgres_data:
+  static_data:
+  media_data:

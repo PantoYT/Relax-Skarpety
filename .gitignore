@@ -1,0 +1,42 @@
+# Dependencies and build output
+node_modules/
+.next/
+dist/
+build/
+.turbo/
+coverage/
+*.tsbuildinfo
+
+# Secrets and runtime configuration
+.env
+.env.*
+!.env.example
+!.env.local.example
+secrets/
+runtime/private/
+*.pem
+*.key
+*.p12
+
+# Local databases, uploads and backups
+*.sqlite
+*.sqlite3
+postgres-data/
+redis-data/
+uploads/
+backups/
+
+# Logs and editor files
+*.log
+backend/db.sqlite3
+backend/media/
+backend/staticfiles/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Temporary files
+tmp/
+temp/
+*.tmp

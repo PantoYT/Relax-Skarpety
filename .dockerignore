@@ -1,0 +1,11 @@
+.git
+.env
+.venv
+__pycache__
+*.py[cod]
+backend/db.sqlite3
+backend/media
+backend/staticfiles
+legacy
+runtime
+work

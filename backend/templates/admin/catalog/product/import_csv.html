@@ -1,0 +1,79 @@
+{% extends "admin/base_site.html" %}
+
+{% block breadcrumbs %}
+  <div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Panel</a>
+    › <a href="{% url 'admin:catalog_product_changelist' %}">Produkty</a>
+    › Import CSV
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="import-intro">
+    <p class="import-kicker">Magazyn internetowy</p>
+    <h1>Import produktów z CSV</h1>
+    <p>Najpierw zobaczysz podgląd i błędy. Baza zmieni się dopiero po drugim, świadomym kliknięciu.</p>
+    <a class="import-template-link" href="{% url 'admin:catalog_product_import_template' %}">Pobierz pusty szablon CSV ↓</a>
+  </div>
+
+  {% if not preview or preview.errors %}
+    <form method="post" enctype="multipart/form-data" class="import-upload">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="button default">Sprawdź plik</button>
+    </form>
+  {% endif %}
+
+  {% if preview %}
+    <section class="import-result">
+      <div class="import-summary">
+        <div><strong>{{ preview.product_count }}</strong><span>produktów</span></div>
+        <div><strong>{{ preview.rows|length }}</strong><span>wariantów</span></div>
+        <div><strong>{{ preview.errors|length }}</strong><span>błędów</span></div>
+      </div>
+
+      {% if preview.errors %}
+        <div class="import-errors">
+          <h2>Popraw plik przed importem</h2>
+          <ul>{% for error in preview.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        </div>
+      {% endif %}
+
+      {% if preview.warnings %}
+        <div class="import-warnings">
+          <h2>Uwagi</h2>
+          <ul>{% for warning in preview.warnings %}<li>{{ warning }}</li>{% endfor %}</ul>
+        </div>
+      {% endif %}
+
+      {% if preview.rows %}
+        <div class="import-table-wrap">
+          <table class="import-table">
+            <thead><tr><th>Wiersz</th><th>Produkt</th><th>Wariant</th><th>Próg</th><th>Stan online</th><th>Widoczny</th></tr></thead>
+            <tbody>
+              {% for row in preview.rows %}
+                <tr>
+                  <td>{{ row.line }}</td>
+                  <td><strong>{{ row.display_name|default:row.working_name }}</strong><small>{{ row.product_key }}</small></td>
+                  <td>{{ row.size_label }} · {{ row.color_name }}{% if row.pattern_name %} · {{ row.pattern_name }}{% endif %}</td>
+                  <td>{{ row.price_tier_name }}</td>
+                  <td>{{ row.stock_online }}</td>
+                  <td>{% if row.published %}Tak{% else %}Nie{% endif %}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+
+      {% if signed_content and not preview.errors %}
+        <form method="post" class="import-confirm">
+          {% csrf_token %}
+          <input type="hidden" name="signed_content" value="{{ signed_content }}">
+          <button type="submit" name="confirm_import" value="1" class="button default">Importuj {{ preview.rows|length }} wariantów</button>
+          <a href="{% url 'admin:catalog_product_import' %}">Anuluj</a>
+        </form>
+      {% endif %}
+    </section>
+  {% endif %}
+{% endblock %}
